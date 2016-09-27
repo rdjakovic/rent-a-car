@@ -105,7 +105,7 @@
                     <version>9.0.6.v20130930</version>
                     <configuration>
                         <httpConnector>
-                            <port>8080</port>
+                            <port>8085</port>
                             <host>localhost</host>
                         </httpConnector>
                         <scanIntervalSeconds>10</scanIntervalSeconds>
