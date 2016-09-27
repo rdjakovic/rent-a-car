@@ -1,0 +1,4 @@
+com\ranko\vehicles\config\RootConfig.class
+com\ranko\vehicles\config\WebAppInitializer.class
+com\ranko\vehicles\config\WebConfig.class
+com\ranko\vehicles\web\HomeController.class
