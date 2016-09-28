@@ -1,4 +1,4 @@
-package com.ranko.vehicles.config;
+package com.ranko.rent_a_car.config;
 
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;

@@ -1,4 +1,4 @@
-package com.ranko.vehicles.model;
+package com.ranko.rent_a_car.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
 

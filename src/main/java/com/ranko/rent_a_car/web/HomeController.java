@@ -1,4 +1,4 @@
-package com.ranko.vehicles.web;
+package com.ranko.rent_a_car.web;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package com.ranko.vehicles.model;
+package com.ranko.rent_a_car.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -9,7 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import java.util.Set;

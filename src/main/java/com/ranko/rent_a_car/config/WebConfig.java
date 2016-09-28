@@ -1,4 +1,4 @@
-package com.ranko.vehicles.config;
+package com.ranko.rent_a_car.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,7 +11,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("com.ranko.vehicles.web")
+@ComponentScan("com.ranko.rent_a_car.web")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Bean
