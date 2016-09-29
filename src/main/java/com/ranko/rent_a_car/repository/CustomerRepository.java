@@ -14,5 +14,4 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
 	Customer findById(Long id) throws DataAccessException;
 
-
 }
