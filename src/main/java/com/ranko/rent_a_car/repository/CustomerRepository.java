@@ -5,12 +5,12 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
+import java.util.List;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
-	Collection<Customer> findByLastName(String lastName) throws DataAccessException;
+	List<Customer> findByLastName(String lastName) throws DataAccessException;
 
 	Customer findById(Long id) throws DataAccessException;
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 
 
 @Service
@@ -21,12 +22,22 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public Collection<Customer> findAll() {
+	public List<Customer> findAll() {
 		return customerRepository.findAll();
 	}
 
 	@Override
 	public Collection<Customer> findByLastName(String lastName) {
 		return customerRepository.findByLastName(lastName);
+	}
+
+	@Override
+	public Customer save(Customer customer) {
+		return customerRepository.save(customer);
+	}
+
+	@Override
+	public void remove(Long id) throws IllegalArgumentException {
+		customerRepository.delete(id);
 	}
 }
