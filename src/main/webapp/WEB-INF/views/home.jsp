@@ -1,16 +1,12 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
-<html>
-  <head>
-    <title>Spitter</title>
-    <link rel="stylesheet"
-          type="text/css"
-          href="<c:url value="/resources/style.css" />" >
-  </head>
-  <body>
-    <h1>Welcome to Vehicles app</h1>
 
-    <a href="<c:url value="/login" />">Login</a> |
-    <a href="<c:url value="/login/register" />">Register</a>
-  </body>
-</html>
+<div class="container text-center">
+	<!-- Example row of columns -->
+	<div class="row">
+		<div class="col-md-12">
+			<h1>Welcome to Rent-a-car</h1>
+		</div>
+	</div>
+	<br>
+</div>
+

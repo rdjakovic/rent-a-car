@@ -25,10 +25,10 @@ public class CustomerController {
 
 	@RequestMapping(method= RequestMethod.GET)
 	public String getCustomers(@RequestParam(value="lastName", required=false) String lastName, Model model) {
-		Collection<Customer> customers = (lastName == null || lastName=="" ? customerService.findAll() : customerService.findByLastName(lastName));
+		Collection<Customer> customers = (lastName == null || "".equals(lastName) ? customerService.findAll() : customerService.findByLastName(lastName));
 		model.addAttribute("customers", customers);
 
-		return "customers/customers";
+		return "customers";
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -43,14 +43,14 @@ public class CustomerController {
 		}
 		model.addAttribute("customer", customer);
 
-		return "customers/addEditCustomer";
+		return "showCustomer";
 
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
 	public String removeCustomer(@PathVariable Long id) {
 		customerService.remove(id);
-		return "customers/customers";
+		return "customers";
 	}
 
 	@RequestMapping(method=RequestMethod.POST)
@@ -63,12 +63,12 @@ public class CustomerController {
 	public String editCustomer(@PathVariable Long id, Model model) {
 		Customer customer = customerService.findOne(id);
 		model.addAttribute("customer", customer);
-		return "customers/addEditCustomer";
+		return "addEditCustomer";
 	}
 
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String newCustomer(Model model) {
 		model.addAttribute("customer", new Customer());
-		return "customers/addEditCustomer";
+		return "addEditCustomer";
 	}
 }
