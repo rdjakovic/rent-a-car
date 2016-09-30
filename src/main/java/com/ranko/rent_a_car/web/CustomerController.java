@@ -31,7 +31,7 @@ public class CustomerController {
 		return "customers/customers";
 	}
 
-	@RequestMapping(value = "/customers/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String viewCustomer(@PathVariable("id") Long id, Model model) {
 
 		logger.debug("showCustomer() id: {}", id);

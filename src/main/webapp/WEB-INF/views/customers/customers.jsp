@@ -52,8 +52,8 @@
 
 					<td>
 						<spring:url value="/customers/${customer.id}" var="customerUrl" />
-						<spring:url value="/customers/${customer.id}/delete" var="deleteUrl" />
-						<spring:url value="/customers/${customer.id}/edit" var="updateUrl" />
+						<spring:url value="/customers/delete/${customer.id}" var="deleteUrl" />
+						<spring:url value="/customers/edit/${customer.id}" var="updateUrl" />
 
 						<button class="btn btn-info" onclick="location.href='${customerUrl}'">View</button>
 						<button class="btn btn-primary" onclick="location.href='${updateUrl}'">Edit</button>
