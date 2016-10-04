@@ -14,7 +14,7 @@
         </div>
     </c:if>
 
-    <h1>All Customers</h1>
+    <h1>Customers</h1>
 
     <spring:url value="/customers" var="customersUrl" />
     <form:form action="${customersUrl}" method="get" modelAttribute="customer" class="navbar-form navbar-right" role="search">
@@ -54,5 +54,12 @@
             </tr>
         </c:forEach>
     </table>
+
+	<div class="form-group">
+	    <spring:url value="/customers/new" var="urlAddCustomer" />
+		<div class="col-sm-10">
+			<button class="btn btn-primary" onclick="location.href='${urlAddCustomer}'">Add new customer</button>
+		</div>
+	</div>
 
 </div>

@@ -26,12 +26,32 @@ public class Rental {
 
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
-	private Rental customer;
+	private Customer customer;
 
 	@ManyToOne
 	@JoinColumn(name = "vehicle_id")
 	private Vehicle vehicle;
 
+	private Integer days;
+
+	private String note;
+
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public Integer getDays() {
+		return days;
+	}
+
+	public void setDays(Integer days) {
+		this.days = days;
+	}
 
 	public Long getId() {
 		return id;
@@ -49,19 +69,19 @@ public class Rental {
 		this.rentalDate = rentalDate;
 	}
 
-	public Rental getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Rental customer) {
-		this.customer = customer;
-	}
-
 	public Vehicle getVehicle() {
 		return vehicle;
 	}
 
 	public void setVehicle(Vehicle vehicle) {
 		this.vehicle = vehicle;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 }

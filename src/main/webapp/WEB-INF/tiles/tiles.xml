@@ -31,7 +31,37 @@
 		<put-attribute name="title" value="Customer details" />
 		<put-attribute name="body" value="/WEB-INF/views/customers/showCustomer.jsp" />
 	</definition>
-	
 
-	
+	<!-- Vehicles Pages -->
+	<definition name="vehicles" extends="base-definition">
+		<put-attribute name="title" value="Vehicles" />
+		<put-attribute name="body" value="/WEB-INF/views/vehicles/vehicles.jsp" />
+	</definition>
+
+	<definition name="addEditVehicle" extends="base-definition">
+		<put-attribute name="title" value="Add/Edit vehicle" />
+		<put-attribute name="body" value="/WEB-INF/views/vehicles/addEditVehicle.jsp" />
+	</definition>
+
+	<definition name="showVehicle" extends="base-definition">
+		<put-attribute name="title" value="Vehicle details" />
+		<put-attribute name="body" value="/WEB-INF/views/vehicles/showVehicle.jsp" />
+	</definition>
+
+	<!-- Rentals Pages -->
+	<definition name="rentals" extends="base-definition">
+		<put-attribute name="title" value="Rentals" />
+		<put-attribute name="body" value="/WEB-INF/views/rentals/rentals.jsp" />
+	</definition>
+
+	<definition name="addEditRental" extends="base-definition">
+		<put-attribute name="title" value="Add/Edit rental" />
+		<put-attribute name="body" value="/WEB-INF/views/rentals/addEditRental.jsp" />
+	</definition>
+
+	<definition name="showRental" extends="base-definition">
+		<put-attribute name="title" value="Rental details" />
+		<put-attribute name="body" value="/WEB-INF/views/rentals/showRental.jsp" />
+	</definition>
+
 </tiles-definitions>

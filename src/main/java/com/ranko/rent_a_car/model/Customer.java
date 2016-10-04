@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -31,12 +32,21 @@ public class Customer {
 	private String lastName;
 
 	//if omit @Column(name="phone") it will be automatically mapped to field name
-	@Digits(fraction = 0, integer = 10)
+//	@Digits(fraction = 0, integer = 10)
 	@NotEmpty
 	private String phone;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer", fetch = FetchType.EAGER)
 	private Set<Rental> rentals;
+
+
+	public void addRental(Rental rental) {
+		if (this.rentals == null) {
+			this.rentals = new HashSet<>();
+		}
+		this.rentals.add(rental);
+		rental.setCustomer(this);
+	}
 
 	public Long getId() {
 		return id;
@@ -68,6 +78,14 @@ public class Customer {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public Set<Rental> getRentals() {
+		return rentals;
+	}
+
+	public void setRentals(Set<Rental> rentals) {
+		this.rentals = rentals;
 	}
 
 	@Override
