@@ -40,7 +40,9 @@
     <spring:url value="/customers/edit/${customer.id}" var="updateCustomerUrl" />
     <button class="btn btn-primary" onclick="location.href='${updateCustomerUrl}'">Edit customer</button>
 
-    <spring:url value="/rentals/new" var="urlAddRental" />
+    <spring:url value="/customers/{customerId}/rentals/new" var="urlAddRental">
+        <spring:param name="customerId" value="${customer.id}"/>
+    </spring:url>
     <button class="btn btn-primary" onclick="location.href='${urlAddRental}'">Add new rental</button>
 
     <br/>

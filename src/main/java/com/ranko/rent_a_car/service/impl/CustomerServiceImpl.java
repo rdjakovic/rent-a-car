@@ -40,4 +40,14 @@ public class CustomerServiceImpl implements CustomerService {
 	public void remove(Long id) throws IllegalArgumentException {
 		customerRepository.delete(id);
 	}
+
+	@Override
+	public Customer findOneWithRentals(Long id) {
+		return customerRepository.findByIdWithRentals(id);
+	}
+
+	@Override
+	public Collection<Customer> findByLastNameWithRentals(String lastName) {
+		return customerRepository.findByLastNameWithRentals(lastName);
+	}
 }

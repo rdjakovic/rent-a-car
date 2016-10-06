@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
@@ -13,57 +14,38 @@
 	</c:choose>
 	<br />
 
-<spring:url value="/rentals" var="rentalsUrl" />
-<form:form action="${rentalsUrl}" method="post" modelAttribute="rental"  class="form-horizontal">
+
+<form:form modelAttribute="rental"  class="form-horizontal">
 	<form:hidden path="id" />
 
-	<div class="form-group">
-		<form:label path="rentalDate" cssClass="col-sm-2">Car brand</form:label>
-		<div class="col-sm-6">
-			<form:input path="rentalDate" cssClass="form-control" />
-		</div>
-		<div class="col-sm-4">
-			<span class="label label-danger"><form:errors path="rentalDate" /></span>
-		</div>
-	</div>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
     <div class="form-group">
-        <form:label path="customer" cssClass="col-sm-2">Customer</form:label>
-        <div class="col-sm-6">
-            <form:select path="customer" class="form-control">
-                <form:option value="NONE" label="--- Select ---" />
-                <form:options items="${customers}" />
-            </form:select>
-            <form:errors path="customer" class="control-label" />
-        </div>
+        <form:label path="customer" class="col-sm-2">Customer</form:label>
+        <form:label path="customer" class="col-sm-6">${rental.customer.firstName}  ${rental.customer.lastName}</form:label>
     </div>
 
-    <div class="form-group">
-        <form:label path="vehicle" cssClass="col-sm-2">Customer</form:label>
-        <div class="col-sm-6">
-            <form:select path="vehicle" class="form-control">
-                <form:option value="NONE" label="--- Select ---" />
-                <form:options items="${vehicles}" />
-            </form:select>
-            <form:errors path="vehicle" class="control-label" />
-        </div>
-    </div>
+
 
 	<div class="form-group">
-		<form:label path="days" cssClass="col-sm-2">Car model</form:label>
+		<form:label path="days" class="col-sm-2">Days rented</form:label>
 		<div class="col-sm-6">
-			<form:input path="days"  cssClass="form-control" />
+			<form:input path="days"  class="form-control" />
 		</div>
 		<div class="col-sm-4">
 			<span class="label label-danger"><form:errors path="days" /></span>
 		</div>
 	</div>
 
-    <div class="form-group}">
-        <form:label path="note" cssClass="col-sm-2">Note</label>
-        <div class="col-sm-10">
-            <form:textarea path="note" rows="5" class="form-control" id="note" placeholder="Notes/Description" />
-            <form:errors path="note" class="control-label" />
+
+
+    <div class="form-group">
+        <form:label path="note" class="col-sm-2">Note/Description</form:label>
+        <div class="col-sm-6">
+            <form:textarea path="note" rows="5" class="form-control" id="note" />
+        </div>
+        <div class="col-sm-4">
+            <span class="label label-danger"><form:errors path="note" /></span>
         </div>
     </div>
 

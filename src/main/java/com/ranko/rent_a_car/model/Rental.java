@@ -21,7 +21,6 @@ public class Rental {
 	private Long id;
 
 	@Column(name = "rental_date")
-	@NotEmpty
 	private Date rentalDate;
 
 	@ManyToOne

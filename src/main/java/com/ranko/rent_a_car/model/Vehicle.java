@@ -36,9 +36,6 @@ public class Vehicle {
 
 	private BigDecimal pricePerDay;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "vehicle")
-	private Set<Rental> rentals;
-
 
 	public Long getId() {
 		return id;
@@ -96,19 +93,4 @@ public class Vehicle {
 		this.pricePerDay = pricePerDay;
 	}
 
-	public Set<Rental> getRentals() {
-		if (this.rentals == null) {
-			this.rentals = new HashSet<>();
-		}
-		return this.rentals;
-	}
-
-	public void setRentals(Set<Rental> rentals) {
-		this.rentals = rentals;
-	}
-
-	public void addRental(Rental rental) {
-		getRentals().add(rental);
-		rental.setVehicle(this);
-	}
 }

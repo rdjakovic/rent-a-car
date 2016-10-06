@@ -41,10 +41,7 @@ public class Customer {
 
 
 	public void addRental(Rental rental) {
-		if (this.rentals == null) {
-			this.rentals = new HashSet<>();
-		}
-		this.rentals.add(rental);
+		getRentals().add(rental);
 		rental.setCustomer(this);
 	}
 
@@ -81,7 +78,10 @@ public class Customer {
 	}
 
 	public Set<Rental> getRentals() {
-		return rentals;
+		if (this.rentals == null) {
+			this.rentals = new HashSet<>();
+		}
+		return this.rentals;
 	}
 
 	public void setRentals(Set<Rental> rentals) {
