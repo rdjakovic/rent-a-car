@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <div class="container">
 
@@ -54,7 +55,6 @@
         <thead>
             <tr>
                 <th>Date</th>
-                <th>Customer</th>
                 <th>Vehicle</th>
                 <th>Days rented</th>
                 <th>Price</th>
@@ -65,14 +65,21 @@
 
         <c:forEach var="rental" items="${customer.rentals}">
             <tr>
-                <td>${rental.rentalDate}</td>
-                <td>${rental.customer.lastName}</td>
+                <td><fmt:formatDate pattern="dd/MM/yyyy" value="${rental.rentalDate}" /></td>
                 <td>${rental.vehicle.carBrand} ${rental.vehicle.carModel}</td>
                 <td>${rental.days}</td>
                 <td>${rental.vehicle.pricePerDay}</td>
                 <td>${rental.days * rental.vehicle.pricePerDay}</td>
                 <td>${rental.note}</td>
+                <td>
+                    <spring:url value="/customers/${customer.id}/rentals/${rental.id}" var="rentalUrl" />
+                    <spring:url value="/customers/${customer.id}/rentals/delete/${rental.id}" var="deleteUrl" />
+                    <spring:url value="/customers/${customer.id}/rentals/edit/${rental.id}" var="updateUrl" />
 
+                    <button class="btn btn-info" onclick="location.href='${rentalUrl}'">View</button>
+                    <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Edit</button>
+                    <button class="btn btn-danger" onclick="this.disabled=true;post('${deleteUrl}')">Delete</button>
+                </td>
             </tr>
         </c:forEach>
     </table>

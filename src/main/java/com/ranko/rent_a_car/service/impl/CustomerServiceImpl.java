@@ -5,6 +5,7 @@ import com.ranko.rent_a_car.repository.CustomerRepository;
 import com.ranko.rent_a_car.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -42,6 +43,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Customer findOneWithRentals(Long id) {
 		return customerRepository.findByIdWithRentals(id);
 	}

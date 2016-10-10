@@ -1,21 +1,22 @@
 package com.ranko.rent_a_car.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name="vehicles")
-public class Vehicle {
+public class Vehicle implements Serializable {
+
+	private static final long serialVersionUID = -1351999046901252017L;
 
 	@Id
 	@GeneratedValue
@@ -93,4 +94,44 @@ public class Vehicle {
 		this.pricePerDay = pricePerDay;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+
+		if (!(o instanceof Vehicle)) return false;
+
+		Vehicle vehicle = (Vehicle) o;
+
+		return new EqualsBuilder()
+				.append(getId(), vehicle.getId())
+				.append(getCarBrand(), vehicle.getCarBrand())
+				.append(getCarModel(), vehicle.getCarModel())
+				.append(getNumberOfSeats(), vehicle.getNumberOfSeats())
+				.append(getColor(), vehicle.getColor())
+				.append(getNote(), vehicle.getNote())
+				.append(getPricePerDay(), vehicle.getPricePerDay())
+				.isEquals();
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder(17, 37)
+				.append(getId())
+				.append(getCarBrand())
+				.append(getCarModel())
+				.append(getNumberOfSeats())
+				.append(getColor())
+				.append(getNote())
+				.append(getPricePerDay())
+				.toHashCode();
+	}
+
+	@Override
+	public String toString() {
+		return "Vehicle{" +
+				"carBrand='" + carBrand + '\'' +
+				", carModel='" + carModel + '\'' +
+				", color='" + color + '\'' +
+				'}';
+	}
 }

@@ -56,7 +56,8 @@
 
                     <button class="btn btn-info" onclick="location.href='${rentalUrl}'">View</button>
                     <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Edit</button>
-                    <button class="btn btn-danger" onclick="this.disabled=true;post('${deleteUrl}')">Delete</button></td>
+                    <button class="btn btn-danger" onclick="this.disabled=true;post('${deleteUrl}')">Delete</button>
+                </td>
             </tr>
         </c:forEach>
     </table>

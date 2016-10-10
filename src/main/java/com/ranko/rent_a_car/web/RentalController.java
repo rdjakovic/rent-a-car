@@ -47,7 +47,12 @@ public class RentalController {
 
 	@ModelAttribute("customer")
 	public Customer findCustomer(@PathVariable("customerId") Long id) {
-		return customerService.findOne(id);
+		return customerService.findOneWithRentals(id);
+	}
+
+	@InitBinder("customer")
+	public void initOwnerBinder(WebDataBinder binder) {
+		binder.setDisallowedFields("id");
 	}
 
 	@InitBinder
@@ -75,14 +80,14 @@ public class RentalController {
 	}
 
 	@RequestMapping(value = "/new", method=RequestMethod.POST)
-	public String saveRental(Customer customer, @Valid Rental rental, BindingResult bindingResult, ModelMap model) {
-		if (bindingResult.hasErrors()) {
+	public String saveNewRental(Customer customer, @Valid Rental rental, BindingResult result, ModelMap model) {
+		if (result.hasErrors()) {
 			model.addAttribute("rental", rental);
 			return "addEditRental";
 		} else {
-			rentalService.save(rental);
 			customer.addRental(rental);
-			return "redirect:/customers/" + customer.getId();
+			rentalService.save(rental);
+			return "redirect:/customers/{customerId}";
 		}
 	}
 
@@ -90,9 +95,20 @@ public class RentalController {
 	public String editRental(@PathVariable Long id, Model model) {
 		Rental rental = rentalService.findById(id);
 		model.addAttribute("rental", rental);
+		model.addAttribute("vehicles", vehicleService.findAll());
 		return "addEditRental";
 	}
 
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+	public String saveRental(@Valid Rental rental, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			model.addAttribute("rental", rental);
+			return "addEditRental";
+		}
+		rentalService.save(rental);
+		return "redirect:/customers/{customerId}";
+	}
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String viewRental(@PathVariable("id") Long id, Model model) {
 

@@ -14,18 +14,26 @@
 	</c:choose>
 	<br />
 
-
-<form:form modelAttribute="rental"  class="form-horizontal">
+<form:form modelAttribute="rental"  class="form-horizontal" >
 	<form:hidden path="id" />
 
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    <!--This is for Cross-Site Request Forgery (CSRF) -->
+    <!--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
 
     <div class="form-group">
         <form:label path="customer" class="col-sm-2">Customer</form:label>
         <form:label path="customer" class="col-sm-6">${rental.customer.firstName}  ${rental.customer.lastName}</form:label>
     </div>
 
-
+	<div class="form-group">
+		<form:label path="rentalDate" class="col-sm-2">Rental date</form:label>
+		<div class="col-sm-6">
+			<form:input path="rentalDate" class="form-control" />
+		</div>
+		<div class="col-sm-4">
+			<span class="label label-danger"><form:errors path="rentalDate" /></span>
+		</div>
+	</div>
 
 	<div class="form-group">
 		<form:label path="days" class="col-sm-2">Days rented</form:label>
@@ -37,7 +45,16 @@
 		</div>
 	</div>
 
-
+	<div class="form-group">
+		<form:label path="vehicle" class="col-sm-2">Vehicle</form:label>
+		<div class="col-sm-6">
+			<form:select path="vehicle" class="form-control">
+				<form:option value="-1" label="--- Select ---" />
+				<form:options items="${vehicles}" itemValue="id" itemLabel="carModel" />
+			</form:select>
+			<form:errors path="vehicle" class="control-label" />
+		</div>
+	</div>
 
     <div class="form-group">
         <form:label path="note" class="col-sm-2">Note/Description</form:label>

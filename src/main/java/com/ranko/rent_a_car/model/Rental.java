@@ -2,6 +2,7 @@ package com.ranko.rent_a_car.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,22 +37,6 @@ public class Rental {
 	private String note;
 
 
-	public String getNote() {
-		return note;
-	}
-
-	public void setNote(String note) {
-		this.note = note;
-	}
-
-	public Integer getDays() {
-		return days;
-	}
-
-	public void setDays(Integer days) {
-		this.days = days;
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -83,4 +68,21 @@ public class Rental {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
+
+	public Integer getDays() {
+		return days;
+	}
+
+	public void setDays(Integer days) {
+		this.days = days;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
 }

@@ -36,7 +36,7 @@ public class Customer {
 	@NotEmpty
 	private String phone;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer", fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
 	private Set<Rental> rentals;
 
 

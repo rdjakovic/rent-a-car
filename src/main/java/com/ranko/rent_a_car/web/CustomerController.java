@@ -6,16 +6,21 @@ import com.ranko.rent_a_car.service.RentalService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 
 @Controller
 @Transactional
@@ -30,10 +35,11 @@ public class CustomerController {
 	@Autowired
 	private RentalService rentalService;
 
-/*	@ModelAttribute("rentals")
-	public Collection<Rental> populateRentals() {
-		return this.rentalService.findAll();
-	}*/
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
+	}
 
 	@RequestMapping(method= RequestMethod.GET)
 	public String getCustomers(@RequestParam(value="lastName", required=false) String lastName, Model model) {
@@ -70,7 +76,7 @@ public class CustomerController {
 
 		logger.debug("showCustomer() id: {}", id);
 
-		Customer customer = customerService.findOne(id);
+		Customer customer = customerService.findOneWithRentals(id);
 		if (customer == null) {
 			model.addAttribute("css", "danger");
 			model.addAttribute("msg", "customer not found");
