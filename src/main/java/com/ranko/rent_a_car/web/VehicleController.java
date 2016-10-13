@@ -36,7 +36,7 @@ public class VehicleController {
 
 		logger.debug("showVehicle() id: {}", id);
 
-		Vehicle vehicle = vehicleService.findById(id);
+		Vehicle vehicle = vehicleService.findOne(id);
 		if (vehicle == null) {
 			model.addAttribute("css", "danger");
 			model.addAttribute("msg", "vehicle not found");
@@ -61,7 +61,7 @@ public class VehicleController {
 
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String editVehicle(@PathVariable Long id, Model model) {
-		Vehicle vehicle = vehicleService.findById(id);
+		Vehicle vehicle = vehicleService.findOne(id);
 		model.addAttribute("vehicle", vehicle);
 		return "addEditVehicle";
 	}

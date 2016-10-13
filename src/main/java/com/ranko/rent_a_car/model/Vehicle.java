@@ -14,9 +14,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name="vehicles")
-public class Vehicle implements Serializable {
-
-	private static final long serialVersionUID = -1351999046901252017L;
+public class Vehicle {
 
 	@Id
 	@GeneratedValue
@@ -94,37 +92,6 @@ public class Vehicle implements Serializable {
 		this.pricePerDay = pricePerDay;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-
-		if (!(o instanceof Vehicle)) return false;
-
-		Vehicle vehicle = (Vehicle) o;
-
-		return new EqualsBuilder()
-				.append(getId(), vehicle.getId())
-				.append(getCarBrand(), vehicle.getCarBrand())
-				.append(getCarModel(), vehicle.getCarModel())
-				.append(getNumberOfSeats(), vehicle.getNumberOfSeats())
-				.append(getColor(), vehicle.getColor())
-				.append(getNote(), vehicle.getNote())
-				.append(getPricePerDay(), vehicle.getPricePerDay())
-				.isEquals();
-	}
-
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder(17, 37)
-				.append(getId())
-				.append(getCarBrand())
-				.append(getCarModel())
-				.append(getNumberOfSeats())
-				.append(getColor())
-				.append(getNote())
-				.append(getPricePerDay())
-				.toHashCode();
-	}
 
 	@Override
 	public String toString() {

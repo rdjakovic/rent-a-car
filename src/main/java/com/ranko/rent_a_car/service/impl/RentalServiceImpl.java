@@ -16,8 +16,8 @@ public class RentalServiceImpl implements RentalService {
 	private RentalRepository rentalRepository;
 
 	@Override
-	public Rental findById(Long id) {
-		return rentalRepository.findById(id);
+	public Rental findOne(Long id) {
+		return rentalRepository.findOne(id);
 	}
 
 	@Override

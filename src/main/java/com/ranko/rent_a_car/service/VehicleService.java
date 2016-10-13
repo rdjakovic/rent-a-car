@@ -7,7 +7,7 @@ import java.util.Collection;
 
 public interface VehicleService {
 
-	Vehicle findById(Long id);
+	Vehicle findOne(Long id);
 	Collection<Vehicle> findAll();
 	Collection<Vehicle> findByCarModel(String carModel);
 	Vehicle save(Vehicle vehicle);

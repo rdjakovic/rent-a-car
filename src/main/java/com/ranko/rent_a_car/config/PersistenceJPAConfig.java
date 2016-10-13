@@ -19,7 +19,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"com.ranko.rent_a_car" })
+@EnableJpaRepositories(basePackages = {"com.ranko.rent_a_car.repository" })
 @EnableTransactionManagement
 @PropertySource({ "classpath:persistence-mysql.properties" })
 public class PersistenceJPAConfig {

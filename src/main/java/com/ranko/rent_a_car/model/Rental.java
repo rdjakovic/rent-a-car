@@ -1,6 +1,7 @@
 package com.ranko.rent_a_car.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import java.util.Date;
 
 @Entity
@@ -21,14 +25,16 @@ public class Rental {
 	@Column(name="id")
 	private Long id;
 
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	@Column(name = "rental_date")
 	private Date rentalDate;
 
-	@ManyToOne
+	@ManyToOne //(cascade=CascadeType.ALL)
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 
-	@ManyToOne
+	@ManyToOne //(cascade=CascadeType.ALL)
 	@JoinColumn(name = "vehicle_id")
 	private Vehicle vehicle;
 

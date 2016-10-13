@@ -13,6 +13,6 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
 
 	Collection<Rental> findByRentalDate(Date rentalDate) throws DataAccessException;
 
-	Rental findById(Long id) throws DataAccessException;
+//	Rental findById(Long id) throws DataAccessException;
 
 }

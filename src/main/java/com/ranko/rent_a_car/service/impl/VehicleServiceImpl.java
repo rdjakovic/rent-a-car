@@ -15,8 +15,8 @@ public class VehicleServiceImpl implements VehicleService {
 	private VehicleRepository vehicleRepository;
 
 	@Override
-	public Vehicle findById(Long id) {
-		return vehicleRepository.findById(id);
+	public Vehicle findOne(Long id) {
+		return vehicleRepository.findOne(id);
 	}
 
 	@Override

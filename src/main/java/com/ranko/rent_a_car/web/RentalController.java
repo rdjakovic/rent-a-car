@@ -8,7 +8,6 @@ import com.ranko.rent_a_car.service.VehicleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Controller;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.Valid;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 
@@ -51,16 +49,21 @@ public class RentalController {
 	}
 
 	@InitBinder("customer")
-	public void initOwnerBinder(WebDataBinder binder) {
+	public void initCustomerBinder(WebDataBinder binder) {
 		binder.setDisallowedFields("id");
 	}
 
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		sdf.setLenient(true);
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
+	@InitBinder("vehicle")
+	public void initVehicleBinder(WebDataBinder binder) {
+		binder.setDisallowedFields("id");
 	}
+
+//	@InitBinder
+//	public void initBinder(WebDataBinder binder) {
+//		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+//		sdf.setLenient(true);
+//		binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
+//	}
 
 	@RequestMapping(method=RequestMethod.GET)
 	public String getRentals(@RequestParam(value="rentalDate", required=false) Date rentalDate, Model model) {
@@ -79,7 +82,7 @@ public class RentalController {
 		return "addEditRental";
 	}
 
-	@RequestMapping(value = "/new", method=RequestMethod.POST)
+	@RequestMapping(/*value = "/new",*/ method=RequestMethod.POST)
 	public String saveNewRental(Customer customer, @Valid Rental rental, BindingResult result, ModelMap model) {
 		if (result.hasErrors()) {
 			model.addAttribute("rental", rental);
@@ -93,28 +96,29 @@ public class RentalController {
 
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String editRental(@PathVariable Long id, Model model) {
-		Rental rental = rentalService.findById(id);
+		Rental rental = rentalService.findOne(id);
 		model.addAttribute("rental", rental);
 		model.addAttribute("vehicles", vehicleService.findAll());
 		return "addEditRental";
 	}
 
-	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-	public String saveRental(@Valid Rental rental, BindingResult result, Model model) {
+/*	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+	public String saveRental(Customer customer, @Valid Rental rental, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			model.addAttribute("rental", rental);
 			return "addEditRental";
 		}
+		customer.addRental(rental);
 		rentalService.save(rental);
 		return "redirect:/customers/{customerId}";
-	}
+	}*/
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String viewRental(@PathVariable("id") Long id, Model model) {
 
 		logger.debug("showRental() id: {}", id);
 
-		Rental rental = rentalService.findById(id);
+		Rental rental = rentalService.findOne(id);
 		if (rental == null) {
 			model.addAttribute("css", "danger");
 			model.addAttribute("msg", "rental not found");

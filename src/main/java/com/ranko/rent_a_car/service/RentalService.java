@@ -9,7 +9,7 @@ import java.util.Date;
 
 public interface RentalService {
 
-	Rental findById(Long id);
+	Rental findOne(Long id);
 	Collection<Rental> findAll();
 	Collection<Rental> findByRentalDate(Date rentalDate);
 	Rental save(Rental rental);

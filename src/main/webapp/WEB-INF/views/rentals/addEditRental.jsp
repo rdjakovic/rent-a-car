@@ -14,7 +14,11 @@
 	</c:choose>
 	<br />
 
-<form:form modelAttribute="rental"  class="form-horizontal" >
+<spring:url value="/customers/{customerId}/rentals" var="rentalsUrl" >
+    <spring:param name="customerId" value="${customer.id}" />
+</spring:url>
+
+<form:form action="${rentalsUrl}" method="post" modelAttribute="rental"  class="form-horizontal" >
 	<form:hidden path="id" />
 
     <!--This is for Cross-Site Request Forgery (CSRF) -->

@@ -15,7 +15,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
 	List<Customer> findByLastName(String lastName) throws DataAccessException;
 
-	Customer findById(Long id) throws DataAccessException;
+//	Customer findById(Long id) throws DataAccessException;
 
 	@Query("SELECT DISTINCT customer FROM Customer customer left join fetch customer.rentals WHERE customer.lastName LIKE :lastName%")
 	public Collection<Customer> findByLastNameWithRentals(@Param("lastName") String lastName);

@@ -12,6 +12,6 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
 	Collection<Vehicle> findByCarModel(String carModel) throws DataAccessException;
 
-	Vehicle findById(Long id) throws DataAccessException;
+//	Vehicle findById(Long id) throws DataAccessException;
 
 }
