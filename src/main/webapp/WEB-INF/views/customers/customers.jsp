@@ -19,7 +19,8 @@
     <spring:url value="/customers" var="customersUrl" />
     <form:form action="${customersUrl}" method="get" modelAttribute="customer" class="navbar-form navbar-right" role="search">
       <div class="form-group">
-        <input type="text" name="lastName" value="${lastName}" class="form-control" placeholder="Search by last name"/>
+        <input type="text" name="lastName" class="form-control" placeholder="Search by last name"/>
+        <input type="text" name="firstName" class="form-control" placeholder="Search by first name"/>
       </div>
       <button type="submit" class="btn btn-default">Search</button>
     </form:form>
@@ -28,9 +29,10 @@
         <thead>
             <tr>
                 <th>#ID</th>
-                <th>FirstName</th>
                 <th>LastName</th>
+                <th>FirstName</th>
                 <th>Phone</th>
+                <th>Email</th>
             </tr>
         </thead>
 
@@ -39,9 +41,10 @@
                 <td>
                     ${customer.id}
                 </td>
-                <td>${customer.firstName}</td>
                 <td>${customer.lastName}</td>
+                <td>${customer.firstName}</td>
                 <td>${customer.phone}</td>
+                <td>${customer.email}</td>
 
                 <td>
                     <spring:url value="/customers/${customer.id}" var="customerUrl" />
@@ -50,7 +53,7 @@
 
                     <button class="btn btn-info" onclick="location.href='${customerUrl}'">View</button>
                     <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Edit</button>
-                    <button class="btn btn-danger" onclick="this.disabled=true;post('${deleteUrl}')">Delete</button></td>
+                    <button class="btn btn-danger" onclick="location.href='${deleteUrl}'">Delete</button></td>
             </tr>
         </c:forEach>
     </table>

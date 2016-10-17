@@ -8,40 +8,35 @@
 	<form:hidden path="id" />
 
 	<div class="form-group">
-		<form:label path="firstName" cssClass="col-sm-2">
-			First Name
-		</form:label>
+		<form:label path="firstName" cssClass="col-sm-2">First Name</form:label>
 		<div class="col-sm-6">
 			<form:input path="firstName" cssClass="form-control" />
-		</div>
-		<div class="col-sm-4">
+			<!-- da ispise gresku kod validacije -->
 			<span class="label label-danger"><form:errors path="firstName" /></span>
 		</div>
 	</div>
 
 	<div class="form-group">
-		<form:label path="lastName" cssClass="col-sm-2">
-			Last Name
-		</form:label>
+		<form:label path="lastName" cssClass="col-sm-2">Last Name</form:label>
 		<div class="col-sm-6">
 			<form:input path="lastName"  cssClass="form-control" />
-		</div>
-		<div class="col-sm-4">
-			<!-- ovde da ispise gresku kod validacije -->
 			<span class="label label-danger"><form:errors path="lastName" /></span>
 		</div>
 	</div>
 
 	<div class="form-group">
-		<form:label path="phone" cssClass="col-sm-2">
-			Phone
-		</form:label>
+		<form:label path="phone" cssClass="col-sm-2">Phone</form:label>
 		<div class="col-sm-6">
 			<form:input path="phone"  cssClass="form-control" />
-		</div>
-		<div class="col-sm-4">
-			<!-- ovde da ispise gresku kod validacije -->
 			<span class="label label-danger"><form:errors path="phone" /></span>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<form:label path="email" cssClass="col-sm-2">Email</form:label>
+		<div class="col-sm-6">
+			<form:input path="email"  cssClass="form-control" />
+			<span class="label label-danger"><form:errors path="email" /></span>
 		</div>
 	</div>
 

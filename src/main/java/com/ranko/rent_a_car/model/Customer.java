@@ -1,16 +1,9 @@
 package com.ranko.rent_a_car.model;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.Digits;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,10 +24,12 @@ public class Customer {
 	@NotEmpty
 	private String lastName;
 
-	//if omit @Column(name="phone") it will be automatically mapped to field name
-//	@Digits(fraction = 0, integer = 10)
+	//if omit @Column(name="phone") it will automatically use attribute("phone") as column name
 	@NotEmpty
 	private String phone;
+
+	@Email
+	private String email;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
 	private Set<Rental> rentals;
@@ -75,6 +70,14 @@ public class Customer {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public Set<Rental> getRentals() {

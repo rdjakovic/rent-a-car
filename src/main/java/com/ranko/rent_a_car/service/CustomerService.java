@@ -11,6 +11,7 @@ public interface CustomerService {
 	Customer findOne(Long id);
 	List<Customer> findAll();
 	Collection<Customer> findByLastName(String lastName);
+	Collection<Customer> findByLastNameAndFirstName(String lastName, String firstName);
 	Customer save(Customer customer);
 	void remove(Long id) throws IllegalArgumentException;
 	Customer findOneWithRentals(Long id);

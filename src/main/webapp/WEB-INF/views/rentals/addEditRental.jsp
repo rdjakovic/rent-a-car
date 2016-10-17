@@ -17,7 +17,7 @@
 <spring:url value="/customers/{customerId}/rentals" var="rentalsUrl" >
     <spring:param name="customerId" value="${customer.id}" />
 </spring:url>
-
+<!-- if omit form action it will go back to the same url (controller) but post method  -->
 <form:form action="${rentalsUrl}" method="post" modelAttribute="rental"  class="form-horizontal" >
 	<form:hidden path="id" />
 
