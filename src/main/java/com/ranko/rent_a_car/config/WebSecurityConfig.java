@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 
 @Configuration
@@ -19,35 +21,54 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @ComponentScan(basePackageClasses = CustomUserDetailsService.class)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
- @Autowired 
- private UserDetailsService userDetailsService;
- 
- @Autowired
- public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {    
-	 auth.userDetailsService(userDetailsService).passwordEncoder(passwordencoder());
- } 
- 
+	@Autowired
+	private UserDetailsService userDetailsService;
 
- 
- @Override
- protected void configure(HttpSecurity http) throws Exception {
-     http.authorizeRequests()
-             .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-             .anyRequest().authenticated()
-             .and()
-             .formLogin().loginPage("/login")
-             .usernameParameter("username").passwordParameter("password")
-             .permitAll()
-             .and()
-             .logout().logoutSuccessUrl("/login?logout")
-             .and()
-             .exceptionHandling().accessDeniedPage("/403")
-             .and()
-             .csrf();
- }
- 
- @Bean(name="passwordEncoder")
-    public PasswordEncoder passwordencoder(){
-     return new BCryptPasswordEncoder();
-    }
+//	@Autowired
+//	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+//		auth.userDetailsService(userDetailsService);  //.passwordEncoder(passwordencoder());
+//	}
+
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth
+				.inMemoryAuthentication()
+				.withUser("ranko").password("ranko").roles("USER");
+	}
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http
+				.authorizeRequests()
+				.antMatchers("/resources/**").permitAll()
+				.anyRequest().authenticated()
+				.and()
+				.formLogin().loginPage("/login").permitAll()
+				.and()
+				.logout().permitAll();
+	}
+
+	/*@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		*//*http.authorizeRequests()
+				.antMatchers("/", "/resources*//**//**", "/login", "/home").permitAll()
+				.anyRequest().authenticated()
+				.and()
+				.formLogin().loginPage("/login").permitAll();*//*
+
+				*//*
+				antMatchers("/admin*//**//**")
+				.access("hasRole('ROLE_ADMIN')").and().formLogin()
+				.loginPage("/login").failureUrl("/login?error")
+				.usernameParameter("username")
+				.passwordParameter("password")
+				.and().logout().logoutSuccessUrl("/login?logout")
+				.and().csrf()
+				.and().exceptionHandling().accessDeniedPage("/403");*//*
+	}*/
+
+	/*@Bean(name = "passwordEncoder")
+	public PasswordEncoder passwordencoder() {
+		return new BCryptPasswordEncoder();
+	}*/
 }
