@@ -10,6 +10,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -42,8 +44,9 @@ public class CustomerController {
 	}
 
 	@RequestMapping(method= RequestMethod.GET)
-	public String getCustomers(@RequestParam(value="lastName", required=false) String lastName, Model model) {
-		Collection<Customer> customers = (lastName == null || "".equals(lastName) ? customerService.findAll() : customerService.findByLastName(lastName));
+	public String getCustomers(@RequestParam(value="lastName", required=false) String lastName, @RequestParam(required=false) String firstName, Model model) {
+		Collection<Customer> customers = ((lastName == null || "".equals(lastName)) && (firstName == null || "".equals(firstName)) ?
+				customerService.findAll() : customerService.findByLastNameAndFirstName(lastName, firstName));
 		model.addAttribute("customers", customers);
 
 		return "customers";
@@ -56,7 +59,11 @@ public class CustomerController {
 	}
 
 	@RequestMapping(method=RequestMethod.POST)
-	public String saveCustomer(Customer customer, Model model, final RedirectAttributes redirectAttributes) {
+	public String saveCustomer(@Valid Customer customer, BindingResult result, Model model, final RedirectAttributes redirectAttributes) {
+		if(result.hasErrors()) {
+			model.addAttribute("customer", customer);
+			return "addEditCustomer";
+		}
 		redirectAttributes.addFlashAttribute("css", "success");
 		redirectAttributes.addFlashAttribute("msg", "Customer saved successfully!");
 		customerService.save(customer);
@@ -88,9 +95,15 @@ public class CustomerController {
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-	public String removeCustomer(@PathVariable Long id) {
+	public String removeCustomer(@PathVariable Long id, final RedirectAttributes redirectAttributes) {
+		logger.debug("delete customer: {}", id);
+
 		customerService.remove(id);
-		return "customers";
+
+		redirectAttributes.addFlashAttribute("css", "success");
+		redirectAttributes.addFlashAttribute("msg", "Customer is deleted!");
+
+		return "redirect:/customers";
 	}
 
 }

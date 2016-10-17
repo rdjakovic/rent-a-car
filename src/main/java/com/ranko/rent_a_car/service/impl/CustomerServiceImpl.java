@@ -33,12 +33,22 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	public Collection<Customer> findByLastNameAndFirstName(String lastName, String firstName) {
+		return customerRepository.findByLastNameAndFirstNameOrderByLastNameAscAllIgnoreCase(lastName, firstName);
+	}
+
+	@Override
 	public Customer save(Customer customer) {
 		return customerRepository.save(customer);
 	}
 
 	@Override
 	public void remove(Long id) throws IllegalArgumentException {
+		Customer customer = customerRepository.findOne(id);
+		if (customer == null) {
+			throw new IllegalArgumentException(String.format(
+					"Customer with id=%d does not exist.", id));
+		}
 		customerRepository.delete(id);
 	}
 

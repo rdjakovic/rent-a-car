@@ -14,6 +14,7 @@ import java.util.List;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
 	List<Customer> findByLastName(String lastName) throws DataAccessException;
+	List<Customer> findByLastNameAndFirstNameOrderByLastNameAscAllIgnoreCase(String lastName, String firstName);
 
 //	Customer findById(Long id) throws DataAccessException;
 

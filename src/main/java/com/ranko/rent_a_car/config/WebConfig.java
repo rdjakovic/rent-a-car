@@ -52,12 +52,16 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     /**
      * Configure ResourceHandlers to serve static resources like CSS/ Javascript etc...
      */
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         super.addResourceHandlers(registry);
     }
-    
+
+    /**
+     * Register formatters or converters
+     * (in this case converter from String vehicle.id returned from view addEditRentals
+     * to object Vehicle, so Hibernate can persist rental.vehicle to db)
+     */
     @Override
     public void addFormatters(FormatterRegistry registry) {
         // Add formatters and/or converters

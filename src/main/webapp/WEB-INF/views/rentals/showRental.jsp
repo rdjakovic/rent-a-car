@@ -13,7 +13,7 @@
         </div>
     </c:if>
 
-    <h1>Vehicle Details</h1>
+    <h1>Rental Details</h1>
     <br />
 
     <div class="row">

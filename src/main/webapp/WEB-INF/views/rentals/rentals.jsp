@@ -19,7 +19,7 @@
     <spring:url value="/rentals" var="rentalsUrl" />
     <form:form action="${rentalsUrl}" method="get" modelAttribute="rental" class="navbar-form navbar-right" role="search">
       <div class="form-group">
-        <input type="text" name="rentalDate" value="${rentalDate}" class="form-control" placeholder="Search by date"/>
+          <input type="text" name="rentalDate" value="${rentalDate}" class="form-control" placeholder="Enter date(empy=all)"/>
       </div>
       <button type="submit" class="btn btn-default">Search</button>
     </form:form>
@@ -42,7 +42,7 @@
                 <td>
                     ${rental.id}
                 </td>
-                <td>${rental.rentalDate}</td>
+                <td><fmt:formatDate pattern="dd/MM/yyyy" value="${rental.rentalDate}" /></td>
                 <td>${rental.customer.lastName}</td>
                 <td>${rental.vehicle.carBrand} ${rental.vehicle.carModel}</td>
                 <td>${rental.days}</td>
@@ -50,25 +50,16 @@
                 <td>${rental.note}</td>
 
                 <td>
-                    <spring:url value="/rentals/${rental.id}" var="rentalUrl" />
+                    <spring:url value="/customers/${rental.customer.id}" var="viewUrl" />
+                    <spring:url value="/customers/${rental.customer.id}/rentals/edit/${rental.id}" var="updateUrl" />
                     <spring:url value="/rentals/delete/${rental.id}" var="deleteUrl" />
-                    <spring:url value="/rentals/edit/${rental.id}" var="updateUrl" />
 
-                    <button class="btn btn-info" onclick="location.href='${rentalUrl}'">View</button>
+                    <button class="btn btn-info" onclick="location.href='${viewUrl}'">View</button>
                     <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Edit</button>
-                    <button class="btn btn-danger" onclick="this.disabled=true;post('${deleteUrl}')">Delete</button>
+                    <button class="btn btn-danger" onclick="location.href='${deleteUrl}'">Delete</button>
                 </td>
             </tr>
         </c:forEach>
     </table>
-
-	<div class="form-group">
-	    <spring:url value="/rentals/new" var="urlAddRental" />
-		<div class="col-sm-10">
-			<button class="btn btn-primary" onclick="location.href='${urlAddRental}'">Add new rental</button>
-		</div>
-	</div>
-
-
 
 </div>

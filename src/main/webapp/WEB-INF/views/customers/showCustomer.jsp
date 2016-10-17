@@ -22,19 +22,24 @@
 	</div>
 
 	<div class="row">
-		<label class="col-sm-2">Name</label>
+		<label class="col-sm-2">First name</label>
 		<div class="col-sm-10">${customer.firstName}</div>
 	</div>
 
 	<div class="row">
-		<label class="col-sm-2">Email</label>
+		<label class="col-sm-2">Last name</label>
 		<div class="col-sm-10">${customer.lastName}</div>
 	</div>
 
 	<div class="row">
-		<label class="col-sm-2">Address</label>
+		<label class="col-sm-2">Phone</label>
 		<div class="col-sm-10">${customer.phone}</div>
 	</div>
+
+    <div class="row">
+        <label class="col-sm-2">Email</label>
+        <div class="col-sm-10">${customer.email}</div>
+    </div>
 
     <hr>
 
@@ -73,12 +78,12 @@
                 <td>${rental.note}</td>
                 <td>
                     <spring:url value="/customers/${customer.id}/rentals/${rental.id}" var="rentalUrl" />
-                    <spring:url value="/customers/${customer.id}/rentals/delete/${rental.id}" var="deleteUrl" />
                     <spring:url value="/customers/${customer.id}/rentals/edit/${rental.id}" var="updateUrl" />
+                    <spring:url value="/customers/${customer.id}/rentals/delete/${rental.id}" var="deleteUrl" />
 
                     <button class="btn btn-info" onclick="location.href='${rentalUrl}'">View</button>
                     <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Edit</button>
-                    <button class="btn btn-danger" onclick="this.disabled=true;post('${deleteUrl}')">Delete</button>
+                    <button class="btn btn-danger" onclick="location.href='${deleteUrl}'">Delete</button>
                 </td>
             </tr>
         </c:forEach>

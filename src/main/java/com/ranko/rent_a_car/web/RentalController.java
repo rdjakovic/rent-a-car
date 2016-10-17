@@ -8,6 +8,7 @@ import com.ranko.rent_a_car.service.VehicleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -58,20 +60,6 @@ public class RentalController {
 		binder.setDisallowedFields("id");
 	}
 
-//	@InitBinder
-//	public void initBinder(WebDataBinder binder) {
-//		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-//		sdf.setLenient(true);
-//		binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
-//	}
-
-	@RequestMapping(method=RequestMethod.GET)
-	public String getRentals(@RequestParam(value="rentalDate", required=false) Date rentalDate, Model model) {
-		Collection<Rental> rentals = (rentalDate == null || "".equals(rentalDate) ? rentalService.findAll() : rentalService.findByRentalDate(rentalDate));
-		model.addAttribute("rentals", rentals);
-
-		return "rentals";
-	}
 
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String newRental(Customer customer, Model model) {
@@ -102,17 +90,6 @@ public class RentalController {
 		return "addEditRental";
 	}
 
-/*	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-	public String saveRental(Customer customer, @Valid Rental rental, BindingResult result, Model model) {
-		if (result.hasErrors()) {
-			model.addAttribute("rental", rental);
-			return "addEditRental";
-		}
-		customer.addRental(rental);
-		rentalService.save(rental);
-		return "redirect:/customers/{customerId}";
-	}*/
-	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String viewRental(@PathVariable("id") Long id, Model model) {
 
@@ -130,9 +107,15 @@ public class RentalController {
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-	public String removeRental(@PathVariable Long id) {
+	public String removeRental(@PathVariable Long id, final RedirectAttributes redirectAttributes, HttpRequest request) {
+		logger.debug("delete rental: {}", id);
+//		logger.debug("referer: {}", request.getURI());
 		rentalService.remove(id);
-		return "rentals";
+
+		redirectAttributes.addFlashAttribute("css", "success");
+		redirectAttributes.addFlashAttribute("msg", "Rental is deleted!");
+
+		return "redirect:/customers/{customerId}";
 	}
 
 	@ExceptionHandler
