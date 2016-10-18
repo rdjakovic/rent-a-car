@@ -24,17 +24,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-//	@Autowired
-//	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.userDetailsService(userDetailsService);  //.passwordEncoder(passwordencoder());
-//	}
-
 	@Autowired
+	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService);  //.passwordEncoder(passwordencoder());
+	}
+
+	/*@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth
 				.inMemoryAuthentication()
 				.withUser("ranko").password("ranko").roles("USER");
-	}
+	}*/
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
