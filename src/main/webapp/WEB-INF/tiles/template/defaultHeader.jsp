@@ -1,5 +1,8 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <jsp:useBean id="now" class="java.util.Date"/>
 <fmt:formatDate value="${now}" type="date" pattern="dd/MM/yyyy" var="fmtNow" />
@@ -22,8 +25,18 @@
 				<li><a href="${urlVehicles}">Vehicles</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+				<li>
+					<c:url var="logoutUrl" value="/logout" />
+					<form:form	id="logoutForm" action="${logoutUrl}">
+					</form:form>
+					<a href="#" onclick="document.getElementById('logoutForm').submit()">
+						<span class="glyphicon glyphicon-log-out"></span> Logout</a>
+					<!--<form:form action="${pageContext.request.contextPath}/logout" method="POST">
+						<input type="submit" value="Logout" />
+					</form:form>-->
+				</li>
 			</ul>
+			</li>
 		</div>
 	</div>
 </nav>
