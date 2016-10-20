@@ -19,17 +19,18 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 @Configuration
 @EnableWebSecurity
 @ComponentScan(basePackageClasses = CustomUserDetailsService.class)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityWebConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
 
 	@Autowired
 	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService);  //.passwordEncoder(passwordencoder());
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordencoder());
 	}
 
-	/*@Autowired
+	/* if we want to use inMemoryAuthentication
+	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth
 				.inMemoryAuthentication()
@@ -41,35 +42,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 				.authorizeRequests()
 				.antMatchers("/resources/**"/*, "/home", "/"*/).permitAll()
+				.antMatchers("/admin", "/admin/**").hasRole("ADMIN")
 				.anyRequest().authenticated()
 				.and()
 				.formLogin().loginPage("/login").permitAll()
 				.and().csrf()
 				.and()
-				.logout().logoutSuccessUrl("/login?logout").permitAll();
+				.logout().logoutSuccessUrl("/login?logout").permitAll()
+				.and().exceptionHandling().accessDeniedPage("/403");
 	}
 
-	/*@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		*//*http.authorizeRequests()
-				.antMatchers("/", "/resources*//**//**", "/login", "/home").permitAll()
-				.anyRequest().authenticated()
-				.and()
-				.formLogin().loginPage("/login").permitAll();*//*
-
-				*//*
-				antMatchers("/admin*//**//**")
-				.access("hasRole('ROLE_ADMIN')").and().formLogin()
-				.loginPage("/login").failureUrl("/login?error")
-				.usernameParameter("username")
-				.passwordParameter("password")
-				.and().logout().logoutSuccessUrl("/login?logout")
-				.and().csrf()
-				.and().exceptionHandling().accessDeniedPage("/403");*//*
-	}*/
-
-	/*@Bean(name = "passwordEncoder")
+	@Bean(name = "passwordEncoder")
 	public PasswordEncoder passwordencoder() {
 		return new BCryptPasswordEncoder();
-	}*/
+	}
 }

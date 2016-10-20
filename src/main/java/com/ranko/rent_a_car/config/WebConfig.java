@@ -24,6 +24,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Autowired
     StringToVehicleConverter stringToVehicleConverter;
 
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/login").setViewName("login");
+        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+    }
+
     // Asking DispatcherServlet to forward requests for static resources to the servlet container’s default servlet and not to try to handle them itself
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
@@ -70,11 +76,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		registry.addConverter(stringToVehicleConverter);
     }
 
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login");
-        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
-    }
+
 
     //There is no need for this ViewResolver because now TilesViewResolver is used
     /*@Bean

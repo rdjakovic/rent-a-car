@@ -15,7 +15,7 @@ public class CustomUserDetails extends User implements UserDetails {
 	private List<String> userRoles;
 	
 
-	public CustomUserDetails(User user,List<String> userRoles){
+	public CustomUserDetails(User user, List<String> userRoles){
 		super(user);
 		this.userRoles=userRoles;
 	}
@@ -24,7 +24,7 @@ public class CustomUserDetails extends User implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
-		String roles=StringUtils.collectionToCommaDelimitedString(userRoles);			
+		String roles = StringUtils.collectionToCommaDelimitedString(userRoles);
 		return AuthorityUtils.commaSeparatedStringToAuthorityList(roles);
 	}
 
@@ -32,6 +32,7 @@ public class CustomUserDetails extends User implements UserDetails {
 	public boolean isAccountNonExpired() {
 		return true;
 	}
+
 	@Override
 	public boolean isAccountNonLocked() {
 		return true;
@@ -41,11 +42,11 @@ public class CustomUserDetails extends User implements UserDetails {
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
+
 	@Override
 	public boolean isEnabled() {
 		return true;
 	}
-
 
 	@Override
 	public String getUsername() {
