@@ -1,16 +1,15 @@
 package com.ranko.rent_a_car.security;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Service;
-
 import com.ranko.rent_a_car.model.User;
 import com.ranko.rent_a_car.repository.UserRepository;
 import com.ranko.rent_a_car.repository.UserRolesRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service("customUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService{
@@ -20,7 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 	@Autowired
     public CustomUserDetailsService(UserRepository userRepository,UserRolesRepository userRolesRepository) {
         this.userRepository = userRepository;
-        this.userRolesRepository=userRolesRepository;
+        this.userRolesRepository = userRolesRepository;
     }
 	
         
@@ -34,5 +33,6 @@ public class CustomUserDetailsService implements UserDetailsService{
 			return new CustomUserDetails(user, userRoles);
 		}
 	}
-		
+
+
 }
