@@ -41,15 +41,17 @@ public class SecurityWebConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 				.authorizeRequests()
-				.antMatchers("/resources/**"/*, "/home", "/"*/).permitAll()
+				.antMatchers("/resources/**", "/login", "/", "/logout").permitAll()
 				.antMatchers("/admin", "/admin/**").hasRole("ADMIN")
 				.anyRequest().authenticated()
 				.and()
-				.formLogin().loginPage("/login").permitAll()
-				.and().csrf()
+				.formLogin().loginPage("/login") //.permitAll()
 				.and()
-				.logout().logoutSuccessUrl("/login?logout").permitAll()
-				.and().exceptionHandling().accessDeniedPage("/403");
+				.logout().logoutSuccessUrl("/login?logout") //.permitAll()
+				.and()
+				.exceptionHandling().accessDeniedPage("/403")
+				.and()
+				.csrf();  //Preventing cross-site request forgery (CSRF)
 	}
 
 	@Bean(name = "passwordEncoder")

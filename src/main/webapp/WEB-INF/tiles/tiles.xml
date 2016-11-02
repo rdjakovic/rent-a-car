@@ -16,6 +16,18 @@
 		<put-attribute name="body" value="/WEB-INF/views/login.jsp" />
 	</definition>
 
+	<!-- Admin Page -->
+	<definition name="admin" extends="base-definition">
+		<put-attribute name="title" value="Login" />
+		<put-attribute name="body" value="/WEB-INF/views/admin.jsp" />
+	</definition>
+
+	<!-- 403 Page -->
+	<definition name="403" extends="base-definition">
+		<put-attribute name="title" value="Access denied" />
+		<put-attribute name="body" value="/WEB-INF/views/403.jsp" />
+	</definition>
+
 	<!-- Home Page -->
 	<definition name="home" extends="base-definition">
 		<put-attribute name="title" value="Welcome" />
