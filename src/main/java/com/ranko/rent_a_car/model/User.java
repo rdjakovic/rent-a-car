@@ -1,8 +1,6 @@
 package com.ranko.rent_a_car.model;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashSet;
 
 
 import javax.persistence.*;
@@ -19,7 +17,7 @@ public class User implements Serializable {
     private Long userId;
 
 	@Column(name = "username", unique=true, nullable=false)
-    private String userName;   
+    private String userName;
 
 	@Column(name = "password", nullable=false)
     private String password;   

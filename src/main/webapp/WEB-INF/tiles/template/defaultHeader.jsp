@@ -18,34 +18,45 @@
 		<div class="navbar-header">
 			<a class="navbar-brand" href="#">Rent-a-car</a>
 		</div>
+
 		<div id="navbar">
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="${urlHome}">Home</a></li>
 				<li><a href="${urlCustomers}">Customers</a></li>
 				<li><a href="${urlRentals}">Rentals</a></li>
 				<li><a href="${urlVehicles}">Vehicles</a></li>
-				<li>
-					<security:authorize access="hasRole('admin')">
+				<security:authorize access="hasRole('ADMIN')">
+					<li>
 						<a href="${urlAdmin}">Admin</a>
-					</security:authorize>
-				</li>
+					</li>
+				</security:authorize>
 			</ul>
+
 			<ul class="nav navbar-nav navbar-right">
-				<li>
-					<security:authorize access="isAuthenticated()">
-						Logged in: <security:authentication property="principal.username" />!
-					</security:authorize>
-				</li>
-				<li>
-					<c:url var="logoutUrl" value="/logout" />
-					<form:form	id="logoutForm" action="${logoutUrl}">
-					</form:form>
-					<a href="#" onclick="document.getElementById('logoutForm').submit()">
-						<span class="glyphicon glyphicon-log-out"></span> Logout</a>
-					<!--<form:form action="${pageContext.request.contextPath}/logout" method="POST">
-						<input type="submit" value="Logout" />
-					</form:form>-->
-				</li>
+				<security:authorize access="isAnonymous()">
+					<li><a href="<c:url value='/login' />">
+						<span class="glyphicon glyphicon-log-in"></span> Log In
+					</a></li>
+				</security:authorize>
+				<security:authorize access="isAuthenticated()">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"
+						   role="button" aria-haspopup="true" aria-expanded="false">
+							<span class="glyphicon glyphicon-user"></span>
+							<security:authentication property="principal.userName" />
+							<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li>
+								<c:url var="logoutUrl" value="/logout" />
+								<form:form	id="logoutForm" action="${logoutUrl}"></form:form>
+								<a href="#" onclick="document.getElementById('logoutForm').submit()">
+									<span class="glyphicon glyphicon-log-out"></span> Logout
+								</a>
+							</li>
+						</ul>
+					</li>
+				</security:authorize>
 			</ul>
 			</li>
 		</div>
