@@ -1,5 +1,6 @@
 package com.ranko.rent_a_car.config;
 
+import com.ranko.rent_a_car.web.converter.StringToUserRoleConverter;
 import com.ranko.rent_a_car.web.converter.StringToVehicleConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +24,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
     StringToVehicleConverter stringToVehicleConverter;
+
+    @Autowired
+    StringToUserRoleConverter stringToUserRoleConverter;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -77,6 +81,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void addFormatters(FormatterRegistry registry) {
         // Add formatters and/or converters
 		registry.addConverter(stringToVehicleConverter);
+        registry.addConverter(stringToUserRoleConverter);
     }
 
 

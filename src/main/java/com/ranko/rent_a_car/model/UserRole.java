@@ -8,14 +8,17 @@ public class UserRole {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)    
-    @Column(name="user_role_id")
-	private Long userroleid;
-	
-	@Column(name="userid")
-	private Long userid;
+    @Column(name="id")
+	private Long id;
+
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User user;
 	
 	@Column(name="role")
-	private String role;	
+	private String role = Role.USER.getRole();
+
+
 
 	public String getRole() {
 		return role;
@@ -25,20 +28,19 @@ public class UserRole {
 		this.role = role;
 	}
 
-	public Long getUserid() {
-		return userid;
+	public Long getId() {
+		return id;
 	}
 
-	public void setUserid(Long userid) {
-		this.userid = userid;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public Long getUserroleid() {
-		return userroleid;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserroleid(Long userroleid) {
-		this.userroleid = userroleid;
-	}	
-	
+	public void setUser(User user) {
+		this.user = user;
+	}
 }

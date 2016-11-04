@@ -1,10 +1,12 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 
 <div class="container">
 
 	<c:choose>
-		<c:when test="${vehicleForm['new']}">
+		<c:when test="${vehicle['new']}">
 			<h1>Add Vehicle</h1>
 		</c:when>
 		<c:otherwise>

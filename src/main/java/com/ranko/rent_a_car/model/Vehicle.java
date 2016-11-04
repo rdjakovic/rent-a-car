@@ -92,6 +92,10 @@ public class Vehicle {
 		this.pricePerDay = pricePerDay;
 	}
 
+	//Check if this is for New of Update
+	public boolean isNew() {
+		return (this.id == null);
+	}
 
 	@Override
 	public String toString() {

@@ -29,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 		if (null == user){
 			throw new UsernameNotFoundException("No user present with username: " + username);
 		} else{
-			List<String> userRoles = userRolesRepository.findRoleByUserName(username);
+			List<String> userRoles = userRolesRepository.findRolesByUserName(username);
 			return new CustomUserDetails(user, userRoles);
 		}
 	}

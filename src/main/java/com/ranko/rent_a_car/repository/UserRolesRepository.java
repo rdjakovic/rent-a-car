@@ -9,7 +9,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRolesRepository extends CrudRepository<UserRole, Long> {
 	
-	@Query("select a.role from UserRole a, User b where b.userName=?1 and a.userid=b.userId")
-    public List<String> findRoleByUserName(String username);
+	@Query("select ur.role from UserRole ur, User u where u.userName=?1 and ur.user.id=u.id")
+    public List<String> findRolesByUserName(String username);
+
+	@Query("select ur.role from UserRole ur, User u where u.userName=?1 and ur.user.id=u.id")
+	public String findRoleByUserName(String username);
 	
 }

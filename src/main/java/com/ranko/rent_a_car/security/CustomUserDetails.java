@@ -53,5 +53,7 @@ public class CustomUserDetails extends User implements UserDetails {
 		return super.getUserName();
 	}
 
-
+	public String getName() {
+		return super.getFirstName() + " " + super.getLastName();
+	}
 }

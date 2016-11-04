@@ -11,7 +11,7 @@
 <spring:url value="/rentals?rentalDate=${fmtNow}" var="urlRentals" />
 <spring:url value="/customers" var="urlCustomers" />
 <spring:url value="/vehicles" var="urlVehicles" />
-<spring:url value="/admin" var="urlAdmin" />
+<spring:url value="/admin/users" var="urlUsers" />
 
 <nav class="navbar navbar-inverse ">
 	<div class="container">
@@ -27,7 +27,7 @@
 				<li><a href="${urlVehicles}">Vehicles</a></li>
 				<security:authorize access="hasRole('ADMIN')">
 					<li>
-						<a href="${urlAdmin}">Admin</a>
+						<a href="${urlUsers}">Users</a>
 					</li>
 				</security:authorize>
 			</ul>
@@ -43,7 +43,7 @@
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"
 						   role="button" aria-haspopup="true" aria-expanded="false">
 							<span class="glyphicon glyphicon-user"></span>
-							<security:authentication property="principal.userName" />
+								<security:authentication property="principal.name" />
 							<span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu">
