@@ -1,6 +1,8 @@
 package com.ranko.rent_a_car.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 
 import javax.persistence.*;
@@ -34,10 +36,10 @@ public class User implements Serializable {
 	@Column(name ="enabled", nullable=false)
 	private boolean enabled = Boolean.TRUE;
 
-	//	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
 //	@ElementCollection(fetch = FetchType.EAGER)
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
-	private UserRole roles;
+//	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
+	private Set<UserRole> roles = new HashSet<UserRole>(0);;
 
 
 	public User(){
@@ -110,12 +112,18 @@ public class User implements Serializable {
 		this.lastName = lastName;
 	}
 
-	public UserRole getRoles() {
+	public Set<UserRole> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(UserRole roles) {
+	public void setRoles(Set<UserRole> roles) {
 		this.roles = roles;
 	}
 
+	@Override
+	public String toString() {
+		return "User{" +
+				"roles=" + roles +
+				'}';
+	}
 }

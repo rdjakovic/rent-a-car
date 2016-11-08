@@ -6,6 +6,8 @@ import com.ranko.rent_a_car.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 public class UserRoleServiceImpl implements UserRoleService {
 
@@ -18,10 +20,8 @@ public class UserRoleServiceImpl implements UserRoleService {
 	}
 
 	@Override
-	public UserRole findRoleByUserName(String userName) {
-		UserRole userRole = new UserRole();
-		userRole.setRole(userRolesRepository.findRoleByUserName(userName));
-		return userRole;
+	public Set<UserRole> findRolesByUserName(String userName) {
+		return userRolesRepository.findRolesByUserName(userName);
 	}
 
 	@Override

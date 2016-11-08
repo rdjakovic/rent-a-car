@@ -26,12 +26,7 @@
 
     <div class="row">
         <label class="col-sm-2">Role</label>
-        <div class="col-sm-10">${user.roles.role}</div>
-    </div>
-
-    <div class="row">
-        <label class="col-sm-2">Password</label>
-        <div class="col-sm-10">${user.password}</div>
+        <div class="col-sm-10">${user.roles}</div>
     </div>
 
     <div class="row">

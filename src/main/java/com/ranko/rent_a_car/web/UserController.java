@@ -53,7 +53,7 @@ public class UserController {
 	}
 
 	@InitBinder("roles")
-	public void initVehicleBinder(WebDataBinder binder) {
+	public void initRolesBinder(WebDataBinder binder) {
 		binder.setDisallowedFields("id");
 	}
 
@@ -78,6 +78,13 @@ public class UserController {
 		return "addEditUser";
 	}
 
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+	public String editUser(@PathVariable Long id, Model model) {
+		User user = userService.findOne(id);
+		model.addAttribute("user", user);
+		return "addEditUser";
+	}
+
 	@RequestMapping(method=RequestMethod.POST)
 	public String saveUser(@Valid User user, BindingResult result, Model model, final RedirectAttributes redirectAttributes) {
 		if(result.hasErrors()) {
@@ -87,16 +94,13 @@ public class UserController {
 		redirectAttributes.addFlashAttribute("css", "success");
 		redirectAttributes.addFlashAttribute("msg", "User saved successfully!");
 
+		for (UserRole userRole : user.getRoles()) {
+			userRole.setUser(user);
+		}
+
 		userService.save(user);
 
 		return "redirect:/admin/users/" + user.getId();
-	}
-
-	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-	public String editUser(@PathVariable Long id, Model model) {
-		User user = userService.findOne(id);
-		model.addAttribute("user", user);
-		return "addEditUser";
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)

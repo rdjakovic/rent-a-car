@@ -1,13 +1,13 @@
 package com.ranko.rent_a_car.security;
 
-import java.util.Collection;
-import java.util.List;
-
+import com.ranko.rent_a_car.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
-import com.ranko.rent_a_car.model.User;
+
+import java.util.Collection;
+import java.util.List;
 
 public class CustomUserDetails extends User implements UserDetails {
 	
@@ -23,7 +23,6 @@ public class CustomUserDetails extends User implements UserDetails {
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		
 		String roles = StringUtils.collectionToCommaDelimitedString(userRoles);
 		return AuthorityUtils.commaSeparatedStringToAuthorityList(roles);
 	}

@@ -19,6 +19,8 @@ public class StringToUserRoleConverter implements Converter<String, UserRole> {
 
 	@Override
 	public UserRole convert(String role) {
-		return userRoleService.findRoleByUserName(role);
+		UserRole userRole = new UserRole();
+		userRole.setRole(role);
+		return userRole;
 	}
 }

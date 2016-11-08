@@ -1,9 +1,11 @@
 package com.ranko.rent_a_car.service.impl;
 
 import com.ranko.rent_a_car.model.User;
+import com.ranko.rent_a_car.model.UserRole;
 import com.ranko.rent_a_car.repository.UserRepository;
 import com.ranko.rent_a_car.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +17,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
 	public User findOne(Long id) {
@@ -33,6 +38,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User save(User user) {
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		return userRepository.save(user);
 	}
 
