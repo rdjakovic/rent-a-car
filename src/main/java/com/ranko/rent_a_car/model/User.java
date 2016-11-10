@@ -19,7 +19,7 @@ public class User implements Serializable {
     private Long id;
 
 	@Column(name = "username", unique=true, nullable=false)
-    private String userName;
+    private String username;
 
 	@Column(name = "password", nullable=false)
     private String password;
@@ -36,10 +36,13 @@ public class User implements Serializable {
 	@Column(name ="enabled", nullable=false)
 	private boolean enabled = Boolean.TRUE;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
-//	@ElementCollection(fetch = FetchType.EAGER)
-//	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
-	private Set<UserRole> roles = new HashSet<UserRole>(0);;
+	@Transient
+	private String passwordConfirm;
+
+//	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<Role>();
 
 
 	public User(){
@@ -47,7 +50,7 @@ public class User implements Serializable {
 	
 	public User(User user) {
 	        this.id = user.id;
-	        this.userName = user.userName;
+	        this.username = user.username;
 	        this.email = user.email;       
 	        this.password = user.password;
 	        this.enabled = user.enabled;
@@ -80,12 +83,12 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public Long getId() {
@@ -112,17 +115,56 @@ public class User implements Serializable {
 		this.lastName = lastName;
 	}
 
-	public Set<UserRole> getRoles() {
+	public Set<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<UserRole> roles) {
+	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
 
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof User))
+			return false;
+		User other = (User) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		return true;
+	}
+	
 	@Override
 	public String toString() {
-		return "User{" +
+		return "User{" + "username=" + username +
 				"roles=" + roles +
 				'}';
 	}

@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="vehicles">
+	<logger name="rent-a-car">
 		<level value="info" />
 	</logger>
 	

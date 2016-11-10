@@ -2,17 +2,18 @@ package com.ranko.rent_a_car.web;
 
 import com.ranko.rent_a_car.model.Role;
 import com.ranko.rent_a_car.model.User;
-import com.ranko.rent_a_car.model.UserRole;
+import com.ranko.rent_a_car.service.RoleService;
 import com.ranko.rent_a_car.service.UserService;
+import com.ranko.rent_a_car.validator.UserValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,14 +21,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.Locale;
 
 @Controller
 @Transactional
@@ -39,22 +36,21 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private RoleService roleService;
+
+	@Autowired
+	private UserValidator userValidator;
+
+	@Autowired
+	MessageSource messageSource;
+
 	/**
 	 * This method will provide Role list to views
 	 */
 	@ModelAttribute("roles")
-	public Map<Role, String > initializeRoles() {
-		Map<Role, String> roles = new LinkedHashMap<>();
-		roles.put(Role.ADMIN, Role.ADMIN.getRole());
-		roles.put(Role.USER, Role.USER.getRole());
-		roles.put(Role.GUEST, Role.GUEST.getRole());
-
-		return roles;
-	}
-
-	@InitBinder("roles")
-	public void initRolesBinder(WebDataBinder binder) {
-		binder.setDisallowedFields("id");
+	public List<Role> initializeProfiles() {
+		return roleService.findAll();
 	}
 
 	@RequestMapping(method= RequestMethod.GET)
@@ -86,17 +82,30 @@ public class UserController {
 	}
 
 	@RequestMapping(method=RequestMethod.POST)
-	public String saveUser(@Valid User user, BindingResult result, Model model, final RedirectAttributes redirectAttributes) {
-		if(result.hasErrors()) {
+	public String saveUser(User user, BindingResult result, Model model, final RedirectAttributes redirectAttributes) {
+		userValidator.validate(user, result);
+
+		if (result.hasErrors()) {
 			model.addAttribute("user", user);
 			return "addEditUser";
 		}
+
+		/*
+         * Preferred way to achieve uniqueness of field [username] should be implementing custom @Unique annotation
+         * and applying it on field [username] of Model class [User].
+         *
+         * Below mentioned peace of code [if block] is to demonstrate that you can fill custom errors outside the validation
+         * framework as well while still using internationalized messages.
+         *
+         */
+		if (user.getId() == null && !userService.isUsernameUnique(user.getId(), user.getUsername())){
+			FieldError ssoError = new FieldError("user","username", messageSource.getMessage("non.unique.username", new String[]{user.getUsername()}, Locale.getDefault()));
+			result.addError(ssoError);
+			return "addEditUser";
+		}
+
 		redirectAttributes.addFlashAttribute("css", "success");
 		redirectAttributes.addFlashAttribute("msg", "User saved successfully!");
-
-		for (UserRole userRole : user.getRoles()) {
-			userRole.setUser(user);
-		}
 
 		userService.save(user);
 

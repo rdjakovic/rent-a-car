@@ -1,37 +1,39 @@
 package com.ranko.rent_a_car.security;
 
+import com.ranko.rent_a_car.model.Role;
 import com.ranko.rent_a_car.model.User;
 import com.ranko.rent_a_car.repository.UserRepository;
-import com.ranko.rent_a_car.repository.UserRolesRepository;
+import com.ranko.rent_a_car.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service("customUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService{
-	private final UserRepository userRepository;
-	private final UserRolesRepository userRolesRepository;
-	
+
 	@Autowired
-    public CustomUserDetailsService(UserRepository userRepository,UserRolesRepository userRolesRepository) {
-        this.userRepository = userRepository;
-        this.userRolesRepository = userRolesRepository;
-    }
-	
-        
+	private UserRepository userRepository;
+
 	@Override
+	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByUserName(username);
-		if (null == user){
-			throw new UsernameNotFoundException("No user present with username: " + username);
-		} else{
-			List<String> userRoles = userRolesRepository.findRoleByUserName(username);
-			return new CustomUserDetails(user, userRoles);
+		User user = userRepository.findByUsername(username);
+
+		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+		for (Role role : user.getRoles()){
+			grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
 		}
+
+		return new CustomUserDetails(user);
 	}
 
 

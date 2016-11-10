@@ -12,22 +12,34 @@
 <spring:url value="/customers" var="urlCustomers" />
 <spring:url value="/vehicles" var="urlVehicles" />
 <spring:url value="/admin/users" var="urlUsers" />
+<spring:url value="/admin/roles" var="urlRoles" />
+
 
 <nav class="navbar navbar-inverse ">
 	<div class="container">
 		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
 			<a class="navbar-brand" href="#">Rent-a-car</a>
 		</div>
 
-		<div id="navbar">
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="${urlHome}">Home</a></li>
 				<li><a href="${urlCustomers}">Customers</a></li>
 				<li><a href="${urlRentals}">Rentals</a></li>
 				<li><a href="${urlVehicles}">Vehicles</a></li>
 				<security:authorize access="hasRole('ADMIN')">
-					<li>
-						<a href="${urlUsers}">Users</a>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" >Administration <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="${urlUsers}">Users</a></li>
+							<li><a href="${urlRoles}">Roles</a></li>
+						</ul>
 					</li>
 				</security:authorize>
 			</ul>
@@ -54,11 +66,12 @@
 									<span class="glyphicon glyphicon-log-out"></span> Logout
 								</a>
 							</li>
+							<security:authentication property="principal.id" var="userid" />
+							<li><a href="/password/edit/${userid}">Change password</a></li>
 						</ul>
 					</li>
 				</security:authorize>
 			</ul>
-			</li>
 		</div>
 	</div>
 </nav>

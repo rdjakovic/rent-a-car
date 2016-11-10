@@ -1,30 +1,39 @@
 package com.ranko.rent_a_car.security;
 
+import com.ranko.rent_a_car.model.Role;
 import com.ranko.rent_a_car.model.User;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class CustomUserDetails extends User implements UserDetails {
 	
 	private static final long serialVersionUID = 1L;
-	private List<String> userRoles;
-	
 
-	public CustomUserDetails(User user, List<String> userRoles){
-		super(user);
-		this.userRoles = userRoles;
+	public CustomUserDetails(User user){
+		if (user != null) {
+			this.setId(user.getId());
+			this.setUsername(user.getUsername());
+			this.setEmail(user.getEmail());
+			this.setPassword(user.getPassword());
+			this.setFirstName(user.getFirstName());
+			this.setLastName(user.getLastName());
+			this.setEnabled(user.getEnabled());
+			this.setRoles(user.getRoles());
+		}
 	}
-	
-	
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		String roles = StringUtils.collectionToCommaDelimitedString(userRoles);
-		return AuthorityUtils.commaSeparatedStringToAuthorityList(roles);
+		final List<GrantedAuthority> authorities = new ArrayList<>();
+		for (final Role role : this.getRoles()) {
+			authorities.add(new SimpleGrantedAuthority(role.getName()));
+		}
+		return authorities;
 	}
 
 	@Override
@@ -47,12 +56,7 @@ public class CustomUserDetails extends User implements UserDetails {
 		return true;
 	}
 
-	@Override
-	public String getUsername() {
-		return super.getUserName();
-	}
-
 	public String getName() {
-		return super.getFirstName() + " " + super.getLastName();
+		return this.getFirstName() + " " + this.getLastName();
 	}
 }

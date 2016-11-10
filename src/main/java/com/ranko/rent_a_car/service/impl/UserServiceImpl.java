@@ -1,7 +1,8 @@
 package com.ranko.rent_a_car.service.impl;
 
+import com.ranko.rent_a_car.model.Role;
 import com.ranko.rent_a_car.model.User;
-import com.ranko.rent_a_car.model.UserRole;
+import com.ranko.rent_a_car.repository.RoleRepository;
 import com.ranko.rent_a_car.repository.UserRepository;
 import com.ranko.rent_a_car.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -17,6 +19,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private RoleRepository roleRepository;
 
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -33,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findByUserName(String userName) {
-		return userRepository.findByUserName(userName);
+		return userRepository.findByUsername(userName);
 	}
 
 	@Override
@@ -64,4 +69,10 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findByUserNameWithRoles(username);
 	}
 
+	@Override
+	public boolean isUsernameUnique(Long id, String username) {
+		User user = findByUserName(username);
+
+		return (user == null || ((id != null) && (user.getId() == id)));
+	}
 }

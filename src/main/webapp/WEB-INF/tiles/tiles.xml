@@ -98,4 +98,27 @@
 		<put-attribute name="body" value="/WEB-INF/views/users/showUser.jsp" />
 	</definition>
 
+	<!-- Roles Pages -->
+	<definition name="roles" extends="base-definition">
+		<put-attribute name="title" value="Roles" />
+		<put-attribute name="body" value="/WEB-INF/views/roles/roles.jsp" />
+	</definition>
+
+	<definition name="addEditRole" extends="base-definition">
+		<put-attribute name="title" value="Add/Edit role" />
+		<put-attribute name="body" value="/WEB-INF/views/roles/addEditRole.jsp" />
+	</definition>
+
+	<definition name="showRole" extends="base-definition">
+		<put-attribute name="title" value="Role details" />
+		<put-attribute name="body" value="/WEB-INF/views/roles/showRole.jsp" />
+	</definition>
+
+	<!-- Roles Pages -->
+	<definition name="changePassword" extends="base-definition">
+		<put-attribute name="title" value="Change user password" />
+		<put-attribute name="body" value="/WEB-INF/views/users/changePassword.jsp" />
+	</definition>
+
+
 </tiles-definitions>

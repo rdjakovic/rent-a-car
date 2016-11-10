@@ -3,9 +3,11 @@ package com.ranko.rent_a_car.config;
 import com.ranko.rent_a_car.web.converter.StringToUserRoleConverter;
 import com.ranko.rent_a_car.web.converter.StringToVehicleConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.Ordered;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.ViewResolver;
@@ -84,7 +86,15 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addConverter(stringToUserRoleConverter);
     }
 
-
+    /**
+     * Configure MessageSource to lookup any validation/error message in internationalized property files
+     */
+    @Bean
+    public MessageSource messageSource() {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename("validation");
+        return messageSource;
+    }
 
     //There is no need for this ViewResolver because now TilesViewResolver is used
     /*@Bean

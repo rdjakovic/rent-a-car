@@ -83,14 +83,15 @@ public class PersistenceJPAConfig {
     }
 
     @Bean
-    public DataSourceInitializer dataSourceInitializer(DataSource dataSource)
-    {
-        DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
-        dataSourceInitializer.setDataSource(dataSource);
-        ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator();
-        databasePopulator.addScript(new ClassPathResource("db.sql"));
-        dataSourceInitializer.setDatabasePopulator(databasePopulator);
-        dataSourceInitializer.setEnabled(Boolean.parseBoolean(initDatabase));
-        return dataSourceInitializer;
+    public DataSourceInitializer databasePopulator() {
+        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        populator.addScript(new ClassPathResource("db.sql"));
+        populator.setContinueOnError(true); // Continue in case the create scripts already ran
+        DataSourceInitializer initializer = new DataSourceInitializer();
+        initializer.setDatabasePopulator(populator);
+        initializer.setEnabled(Boolean.parseBoolean(initDatabase));
+        initializer.setDataSource(dataSource());
+        return initializer;
     }
+
 }

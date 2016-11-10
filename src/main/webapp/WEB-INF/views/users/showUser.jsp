@@ -21,7 +21,7 @@
 
     <div class="row">
         <label class="col-sm-2">Username</label>
-        <div class="col-sm-10">${user.userName}</div>
+        <div class="col-sm-10">${user.username}</div>
     </div>
 
     <div class="row">
@@ -47,6 +47,11 @@
     <div class="row">
         <label class="col-sm-2">Enabled</label>
         <div class="col-sm-10">${user.enabled}</div>
+    </div>
+
+    <br>
+    <div class="well well-sm">
+        <a href="<c:url value='/admin/users' />">Go to users list</a>
     </div>
 
 </div>

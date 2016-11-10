@@ -25,10 +25,10 @@
 	</div>
 
 	<div class="form-group">
-		<form:label path="userName" cssClass="col-sm-2">Username</form:label>
+		<form:label path="username" cssClass="col-sm-2">Username</form:label>
 		<div class="col-sm-6">
-			<form:input path="userName"  cssClass="form-control" />
-			<span class="label label-danger"><form:errors path="userName" /></span>
+			<form:input path="username"  cssClass="form-control" />
+			<span class="label label-danger"><form:errors path="username" /></span>
 		</div>
 	</div>
 
@@ -51,7 +51,7 @@
 	<div class="form-group">
 		<form:label path="roles" cssClass="col-sm-2">Role</form:label>
 		<div class="col-sm-6">
-			<form:select path="roles" items="${roles}" multiple="true" />
+			<form:select path="roles" items="${roles}" multiple="true" itemValue="id" itemLabel="name"/>
 			<span class="label label-danger"><form:errors path="enabled" /></span>
 		</div>
 	</div>

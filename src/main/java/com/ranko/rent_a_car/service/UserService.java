@@ -14,4 +14,5 @@ public interface UserService {
 	User save(User user);
 	void remove(Long id) throws IllegalArgumentException;
 	User findByUserNameWithRoles(String userName);
+	boolean isUsernameUnique(Long id, String username);
 }
