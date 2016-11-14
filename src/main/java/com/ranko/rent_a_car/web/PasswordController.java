@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Iterator;
+
 @Controller
 @Transactional
 @RequestMapping("/password")
@@ -33,7 +35,6 @@ public class PasswordController {
 
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String editPassword(@PathVariable Long id, Model model) {
-//		User user = userService.findOne(id);
 		PasswordDTO password = new PasswordDTO();
 		model.addAttribute("password", password);
 		return "changePassword";

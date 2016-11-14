@@ -77,6 +77,14 @@ public class UserController {
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String editUser(@PathVariable Long id, Model model) {
 		User user = userService.findOne(id);
+
+		/* if we want to have FetchType.LAZY(which is default for @OneToMany and @ManyToMany) for 'roles' collection
+		in User entity, we will get this exception: org.hibernate.LazyInitializationException:
+		failed to lazily initialize a collection of role: com.ranko.rent_a_car.model.User.roles, could not initialize proxy - no Session
+		To avoid that, one way is to initialize collection while still have session (before going to view)
+		*/
+		user.getRoles().size();  // initializing collection
+
 		model.addAttribute("user", user);
 		return "addEditUser";
 	}
