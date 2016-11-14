@@ -18,11 +18,11 @@
 
 	<div class="row">
 		<label class="col-sm-2">Username</label>
-		<div class="col-sm-10">${user.username}</div>
+		<div class="col-sm-10"><security:authentication property="principal.username" /></div>
 	</div>
 
 	<div class="row">
-		<label class="col-sm-2">Last Name</label>
+		<label class="col-sm-2">Full name</label>
 		<div class="col-sm-10"><security:authentication property="principal.name" /></div>
 	</div>
 
@@ -32,21 +32,7 @@
 	</div>
 
 	<spring:url value="/password" var="passwordUrl" />
-	<form:form action="${passwordUrl}" method="post" modelAttribute="user" class="navbar-form navbar-right" role="search">
-		<div class="form-group">
-			<input type="text" name="password" class="form-control" placeholder="Type password"/>
-		</div>
-		<button type="submit" class="btn btn-default">Update</button>
-	</form:form>
-
-	<!--
-	<spring:url value="/password" var="passwordUrl" />
-	<form:form action="${passwordUrl}" method="post" modelAttribute="user"  class="form-horizontal">
-		<form:hidden path="id" />
-		<form:hidden path="firstName" />
-		<form:hidden path="lastName" />
-		<form:hidden path="email" />
-
+	<form:form action="${passwordUrl}" method="post" modelAttribute="password"  class="form-horizontal">
 		<div class="form-group">
 			<form:label path="password" cssClass="col-sm-2">Password</form:label>
 			<div class="col-sm-6">
@@ -62,6 +48,6 @@
 				</button>
 			</div>
 		</div>
-	</form:form>-->
+	</form:form>
 
 </div>

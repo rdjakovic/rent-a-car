@@ -50,8 +50,16 @@
     </div>
 
     <br>
-    <div class="well well-sm">
-        <a href="<c:url value='/admin/users' />">Go to users list</a>
-    </div>
+
+    <c:choose>
+        <c:when test="${passwordchange}">
+
+        </c:when>
+        <c:otherwise>
+            <div class="well well-sm">
+                <a href="<c:url value='/admin/users' />">Go to users list</a>
+            </div>
+        </c:otherwise>
+    </c:choose>
 
 </div>

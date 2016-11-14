@@ -68,6 +68,7 @@
 							</li>
 							<security:authentication property="principal.id" var="userid" />
 							<li><a href="/password/edit/${userid}">Change password</a></li>
+							<li><a href="/password">User details</a></li>
 						</ul>
 					</li>
 				</security:authorize>

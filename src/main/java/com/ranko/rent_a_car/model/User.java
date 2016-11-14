@@ -39,10 +39,9 @@ public class User implements Serializable {
 	@Transient
 	private String passwordConfirm;
 
-//	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles = new HashSet<Role>();
+	private Set<Role> roles = new HashSet<>();
 
 
 	public User(){
@@ -56,6 +55,7 @@ public class User implements Serializable {
 	        this.enabled = user.enabled;
 			this.firstName = user.firstName;
 			this.lastName = user.lastName;
+			this.roles = user.roles;
 	}
 
 
@@ -135,8 +135,8 @@ public class User implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		result = (prime * result) + ((id == null) ? 0 : id.hashCode());
+		result = (prime * result) + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
 
