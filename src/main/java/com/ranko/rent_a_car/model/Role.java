@@ -82,6 +82,6 @@ public class Role {
 
 	@Override
 	public String toString() {
-		return name;
+		return name.substring(5);
 	}
 }

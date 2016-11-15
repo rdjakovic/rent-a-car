@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -121,15 +122,17 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String viewUser(@PathVariable("id") Long id, Model model) {
+	public String viewUser(@PathVariable("id") Long id, Model model, Authentication authentication) {
 
 		logger.debug("showUser() id: {}", id);
 
-		User user = userService.findOneWithRoles(id);
+		User user = new User((User) authentication.getPrincipal());
+//		User user = userService.findOneWithRoles(id);
 		if (user == null) {
 			model.addAttribute("css", "danger");
 			model.addAttribute("msg", "user not found");
 		}
+
 		model.addAttribute("user", user);
 
 		return "showUser";
