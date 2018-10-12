@@ -15,11 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collection;
@@ -126,8 +122,8 @@ public class UserController {
 
 		logger.debug("showUser() id: {}", id);
 
-		User user = new User((User) authentication.getPrincipal());
-//		User user = userService.findOneWithRoles(id);
+//		User user = new User((User) authentication.getPrincipal());
+		User user = userService.findOneWithRoles(id);
 		if (user == null) {
 			model.addAttribute("css", "danger");
 			model.addAttribute("msg", "user not found");

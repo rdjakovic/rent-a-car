@@ -6,20 +6,26 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.util.DefaultPropertiesPersister;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Properties;
 
 @Configuration
@@ -32,7 +38,10 @@ public class PersistenceJPAConfig {
     private Environment env;
 
     @Value("${init-db:false}")
-    private String initDatabase;
+    private boolean initDatabase;
+
+    @Value("classpath:populateDB.sql")
+    private Resource dataScript;
 
     public PersistenceJPAConfig() {
         super();
@@ -83,15 +92,38 @@ public class PersistenceJPAConfig {
     }
 
     @Bean
-    public DataSourceInitializer databasePopulator() {
-        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScript(new ClassPathResource("db.sql"));
-        populator.setContinueOnError(true); // Continue in case the create scripts already ran
-        DataSourceInitializer initializer = new DataSourceInitializer();
-        initializer.setDatabasePopulator(populator);
-        initializer.setEnabled(Boolean.parseBoolean(initDatabase));
-        initializer.setDataSource(dataSource());
+    public DataSourceInitializer dataSourceInitializer(final DataSource dataSource) {
+        final DataSourceInitializer initializer = new DataSourceInitializer();
+        initializer.setDataSource(dataSource);
+        if (initDatabase) {
+            initializer.setDatabasePopulator(databasePopulator());
+//            saveParamChanges();
+        }
         return initializer;
+    }
+
+    private DatabasePopulator databasePopulator() {
+        final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        //if we want to initialize schema from script file
+        //populator.addScript(schemaScript);
+        populator.addScript(dataScript);
+        populator.setContinueOnError(true); // Continue in case the create scripts already ran
+        return populator;
+    }
+
+    private void saveParamChanges() {
+        File f = new File("persistence-mysql.properties");
+        try (OutputStream out = new FileOutputStream(f)) {
+            // create and set properties into properties object
+            Properties props = new Properties();
+            props.setProperty("init-db", "false");
+            String st = env.getProperty("init-db");
+            // write into it
+            DefaultPropertiesPersister p = new DefaultPropertiesPersister();
+            p.store(props, out, "Header Comment");
+        } catch (IOException e ) {
+            e.printStackTrace();
+        }
     }
 
 }
