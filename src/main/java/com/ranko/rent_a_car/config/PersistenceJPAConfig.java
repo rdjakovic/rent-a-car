@@ -18,14 +18,9 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.util.DefaultPropertiesPersister;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Properties;
 
 @Configuration
@@ -51,7 +46,7 @@ public class PersistenceJPAConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[] { "com.ranko.rent_a_car.model" });
+        em.setPackagesToScan("com.ranko.rent_a_car.model");
 
         final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
@@ -61,7 +56,7 @@ public class PersistenceJPAConfig {
     }
 
     @Bean
-    public DataSource dataSource() {
+    private DataSource dataSource() {
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
         dataSource.setUrl(env.getProperty("jdbc.url"));
@@ -83,7 +78,7 @@ public class PersistenceJPAConfig {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
-    final Properties hibernateProperties() {
+    private Properties hibernateProperties() {
         final Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
         hibernateProperties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
@@ -97,7 +92,6 @@ public class PersistenceJPAConfig {
         initializer.setDataSource(dataSource);
         if (initDatabase) {
             initializer.setDatabasePopulator(databasePopulator());
-//            saveParamChanges();
         }
         return initializer;
     }
@@ -109,21 +103,6 @@ public class PersistenceJPAConfig {
         populator.addScript(dataScript);
         populator.setContinueOnError(true); // Continue in case the create scripts already ran
         return populator;
-    }
-
-    private void saveParamChanges() {
-        File f = new File("persistence-mysql.properties");
-        try (OutputStream out = new FileOutputStream(f)) {
-            // create and set properties into properties object
-            Properties props = new Properties();
-            props.setProperty("init-db", "false");
-            String st = env.getProperty("init-db");
-            // write into it
-            DefaultPropertiesPersister p = new DefaultPropertiesPersister();
-            p.store(props, out, "Header Comment");
-        } catch (IOException e ) {
-            e.printStackTrace();
-        }
     }
 
 }
