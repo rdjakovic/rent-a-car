@@ -55,8 +55,9 @@ public class PersistenceJPAConfig {
         return em;
     }
 
+    @SuppressWarnings("WeakerAccess")
     @Bean
-    private DataSource dataSource() {
+    DataSource dataSource() {
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
         dataSource.setUrl(env.getProperty("jdbc.url"));
