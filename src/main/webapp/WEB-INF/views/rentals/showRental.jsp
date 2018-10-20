@@ -46,4 +46,8 @@
         <div class="col-sm-10">${rental.note}</div>
     </div>
 
+    <div class="row">
+        <INPUT TYPE="button" VALUE="<- Back" class="btn" onClick="history.go(-1);">
+    </div>
+
 </div>

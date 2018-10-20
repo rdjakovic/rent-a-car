@@ -59,7 +59,7 @@
 	<div class="form-group">
 		<form:label path="enabled" cssClass="col-sm-2">Enabled</form:label>
 		<div class="col-sm-6" align="left">
-			<form:checkbox path="enabled"  cssClass="form-control" />
+			<form:checkbox path="enabled" cssClass="checkbox" />
 			<span class="label label-danger"><form:errors path="enabled" /></span>
 		</div>
 	</div>

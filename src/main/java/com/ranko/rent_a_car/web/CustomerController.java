@@ -12,11 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -31,11 +27,15 @@ public class CustomerController {
 
 	private final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
-	@Autowired
-	private CustomerService customerService;
+	private final CustomerService customerService;
+
+	private final RentalService rentalService;
 
 	@Autowired
-	private RentalService rentalService;
+	public CustomerController(CustomerService customerService, RentalService rentalService) {
+		this.customerService = customerService;
+		this.rentalService = rentalService;
+	}
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {

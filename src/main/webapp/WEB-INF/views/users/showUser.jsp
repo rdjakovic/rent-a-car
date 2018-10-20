@@ -51,15 +51,8 @@
 
     <br>
 
-    <c:choose>
-        <c:when test="${passwordchange}">
-
-        </c:when>
-        <c:otherwise>
-            <div class="well well-sm">
-                <a href="<c:url value='/admin/users' />">Go to users list</a>
-            </div>
-        </c:otherwise>
-    </c:choose>
+    <div>
+        <INPUT TYPE="button" VALUE="<- Back" class="btn" onClick="history.go(-1);">
+    </div>
 
 </div>

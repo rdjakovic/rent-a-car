@@ -1,5 +1,6 @@
 package com.ranko.rent_a_car.service.impl;
 
+import com.ranko.rent_a_car.model.Customer;
 import com.ranko.rent_a_car.model.Rental;
 import com.ranko.rent_a_car.repository.RentalRepository;
 import com.ranko.rent_a_car.service.RentalService;
@@ -12,8 +13,12 @@ import java.util.Date;
 @Service
 public class RentalServiceImpl implements RentalService {
 
+	private final RentalRepository rentalRepository;
+
 	@Autowired
-	private RentalRepository rentalRepository;
+	public RentalServiceImpl(RentalRepository rentalRepository) {
+		this.rentalRepository = rentalRepository;
+	}
 
 	@Override
 	public Rental findOne(Long id) {
@@ -39,4 +44,9 @@ public class RentalServiceImpl implements RentalService {
 	public void remove(Long id) throws IllegalArgumentException {
 		rentalRepository.delete(id);
 	}
+
+    @Override
+    public Collection<Rental> findAllByCustomer(Customer customer) {
+        return rentalRepository.findAllByCustomer(customer);
+    }
 }

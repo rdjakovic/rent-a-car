@@ -79,7 +79,7 @@
                 <td>
                     <spring:url value="/customers/${customer.id}/rentals/${rental.id}" var="rentalUrl" />
                     <spring:url value="/customers/${customer.id}/rentals/edit/${rental.id}" var="updateUrl" />
-                    <spring:url value="/customers/${customer.id}/rentals/delete/${rental.id}" var="deleteUrl" />
+                    <spring:url value="/rentals/delete/${rental.id}" var="deleteUrl" />
 
                     <button class="btn btn-info" onclick="location.href='${rentalUrl}'">View</button>
                     <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Edit</button>
@@ -88,5 +88,10 @@
             </tr>
         </c:forEach>
     </table>
+
+    <div>
+        <a href="<c:url value='/customers' />">Go to customers list</a>
+        <%--<INPUT TYPE="button" VALUE="<- Back" class="btn" onClick="history.go(-1);">--%>
+    </div>
 
 </div>

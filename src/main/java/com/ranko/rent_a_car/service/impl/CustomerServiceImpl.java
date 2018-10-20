@@ -1,6 +1,7 @@
 package com.ranko.rent_a_car.service.impl;
 
 import com.ranko.rent_a_car.model.Customer;
+import com.ranko.rent_a_car.model.Rental;
 import com.ranko.rent_a_car.repository.CustomerRepository;
 import com.ranko.rent_a_car.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,14 @@ import java.util.List;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
+	private final CustomerRepository customerRepository;
+	private final RentalServiceImpl rentalService;
+
 	@Autowired
-	private CustomerRepository customerRepository;
+	public CustomerServiceImpl(CustomerRepository customerRepository, RentalServiceImpl rentalService) {
+		this.customerRepository = customerRepository;
+		this.rentalService = rentalService;
+	}
 
 	@Override
 	public Customer findOne(Long id) {
@@ -49,6 +56,8 @@ public class CustomerServiceImpl implements CustomerService {
 			throw new IllegalArgumentException(String.format(
 					"Customer with id=%d does not exist.", id));
 		}
+		Collection<Rental> rentalsOfThisCustomer = rentalService.findAllByCustomer(customer);
+		rentalsOfThisCustomer.forEach(rental -> rentalService.remove(rental.getId()));
 		customerRepository.delete(id);
 	}
 

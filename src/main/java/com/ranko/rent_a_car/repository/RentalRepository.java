@@ -1,5 +1,6 @@
 package com.ranko.rent_a_car.repository;
 
+import com.ranko.rent_a_car.model.Customer;
 import com.ranko.rent_a_car.model.Rental;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +14,6 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
 
 	Collection<Rental> findByRentalDate(Date rentalDate) throws DataAccessException;
 
-//	Rental findById(Long id) throws DataAccessException;
+	Collection<Rental> findAllByCustomer(Customer customer) throws DataAccessException;
 
 }

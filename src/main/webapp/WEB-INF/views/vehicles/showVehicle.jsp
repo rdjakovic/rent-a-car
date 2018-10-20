@@ -44,4 +44,11 @@
         <div class="col-sm-10">${vehicle.note}</div>
     </div>
 
+	<div class="row">
+		<label class="col-sm-2"></label>
+	</div>
+
+	<div>
+		<INPUT TYPE="button" VALUE="<- Back" class="btn" onClick="history.go(-1);">
+	</div>
 </div>

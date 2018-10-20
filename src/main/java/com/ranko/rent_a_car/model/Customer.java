@@ -31,7 +31,7 @@ public class Customer {
 	@Email
 	private String email;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+	@OneToMany( mappedBy = "customer")  //cascade = CascadeType.ALL,
 	private Set<Rental> rentals;
 
 
