@@ -8,7 +8,6 @@ import com.ranko.rent_a_car.service.VehicleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Controller;
@@ -102,7 +101,7 @@ public class RentalController {
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-	public String removeRental(@PathVariable Long id, final RedirectAttributes redirectAttributes, HttpRequest request) {
+	public String removeRental(@PathVariable Long id, final RedirectAttributes redirectAttributes) { //, HttpRequest request
 		logger.debug("delete rental: {}", id);
 //		logger.debug("referer: {}", request.getURI());
 		rentalService.remove(id);

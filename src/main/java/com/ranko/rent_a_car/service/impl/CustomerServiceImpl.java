@@ -50,6 +50,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	@Transactional
 	public void remove(Long id) throws IllegalArgumentException {
 		Customer customer = customerRepository.findOne(id);
 		if (customer == null) {

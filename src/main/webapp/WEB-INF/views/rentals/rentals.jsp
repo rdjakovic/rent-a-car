@@ -17,7 +17,7 @@
     <h1>Rentals</h1>
 
     <spring:url value="/rentals" var="rentalsUrl" />
-    <form:form action="${rentalsUrl}" method="get" modelAttribute="rental" class="navbar-form navbar-right" role="search">
+    <form:form action="${rentalsUrl}" method="get" modelAttribute="rentals" class="navbar-form navbar-right" role="search">
       <div class="form-group">
           <input type="text" name="rentalDate" value="${rentalDate}" class="form-control" placeholder="Enter date(empy=all)"/>
       </div>
@@ -50,7 +50,7 @@
                 <td>${rental.note}</td>
 
                 <td>
-                    <spring:url value="/customers/${rental.customer.id}" var="viewUrl" />
+                    <spring:url value="/customers/${rental.customer.id}/rentals/${rental.id}" var="viewUrl" />
                     <spring:url value="/customers/${rental.customer.id}/rentals/edit/${rental.id}" var="updateUrl" />
                     <spring:url value="/rentals/delete/${rental.id}" var="deleteUrl" />
 
