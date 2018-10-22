@@ -91,6 +91,8 @@ public class PersistenceJPAConfig {
     public DataSourceInitializer dataSourceInitializer(final DataSource dataSource) {
         final DataSourceInitializer initializer = new DataSourceInitializer();
         initializer.setDataSource(dataSource);
+//        this way or @Value("${init-db:false}")
+//        boolean initDatabase = Boolean.getBoolean(System.getProperty("init-db", "false"));
         if (initDatabase) {
             initializer.setDatabasePopulator(databasePopulator());
         }
