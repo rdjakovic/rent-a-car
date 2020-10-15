@@ -11,17 +11,13 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.Ordered;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("com.ranko.rent_a_car")
+@ComponentScan("com.ranko.rent_a_car.web")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
@@ -51,9 +47,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public TilesConfigurer tilesConfigurer() {
         TilesConfigurer tiles = new TilesConfigurer();
-        tiles.setDefinitions(new String[] {
-                "/WEB-INF/tiles/tiles.xml"
-        });
+        //if we have more definitions
+        //new String[] {"/WEB-INF/tiles/tiles.xml", "/another_tiles.xml"});
+        tiles.setDefinitions("/WEB-INF/tiles/tiles.xml");
         tiles.setCheckRefresh(true);
         return tiles;
     }

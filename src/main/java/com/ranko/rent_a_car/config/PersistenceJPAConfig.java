@@ -6,11 +6,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -32,7 +33,10 @@ public class PersistenceJPAConfig {
     private Environment env;
 
     @Value("${init-db:false}")
-    private String initDatabase;
+    private boolean initDatabase;
+
+    @Value("classpath:populateDB.sql")
+    private Resource dataScript;
 
     public PersistenceJPAConfig() {
         super();
@@ -42,7 +46,7 @@ public class PersistenceJPAConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[] { "com.ranko.rent_a_car.model" });
+        em.setPackagesToScan("com.ranko.rent_a_car.model");
 
         final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
@@ -51,8 +55,9 @@ public class PersistenceJPAConfig {
         return em;
     }
 
+    @SuppressWarnings("WeakerAccess")
     @Bean
-    public DataSource dataSource() {
+    DataSource dataSource() {
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
         dataSource.setUrl(env.getProperty("jdbc.url"));
@@ -74,7 +79,7 @@ public class PersistenceJPAConfig {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
-    final Properties hibernateProperties() {
+    private Properties hibernateProperties() {
         final Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
         hibernateProperties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
@@ -83,15 +88,22 @@ public class PersistenceJPAConfig {
     }
 
     @Bean
-    public DataSourceInitializer databasePopulator() {
-        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScript(new ClassPathResource("db.sql"));
-        populator.setContinueOnError(true); // Continue in case the create scripts already ran
-        DataSourceInitializer initializer = new DataSourceInitializer();
-        initializer.setDatabasePopulator(populator);
-        initializer.setEnabled(Boolean.parseBoolean(initDatabase));
-        initializer.setDataSource(dataSource());
+    public DataSourceInitializer dataSourceInitializer(final DataSource dataSource) {
+        final DataSourceInitializer initializer = new DataSourceInitializer();
+        initializer.setDataSource(dataSource);
+        if (initDatabase) {
+            initializer.setDatabasePopulator(databasePopulator());
+        }
         return initializer;
+    }
+
+    private DatabasePopulator databasePopulator() {
+        final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        //if we want to initialize schema from script file
+        //populator.addScript(schemaScript);
+        populator.addScript(dataScript);
+        populator.setContinueOnError(true); // Continue in case the create scripts already ran
+        return populator;
     }
 
 }

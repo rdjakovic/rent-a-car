@@ -12,10 +12,10 @@ public class Role {
     @Column(name="id")
 	private Long id;
 
-	@Column(name="role")
+	@Column(name="role", unique = true)
 	private String name;
 
-	@ManyToMany(mappedBy = "roles")
+	@ManyToMany(mappedBy = "roles",	cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private Set<User> users;
 
 

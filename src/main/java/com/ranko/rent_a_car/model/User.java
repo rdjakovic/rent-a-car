@@ -1,11 +1,9 @@
 package com.ranko.rent_a_car.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-
-
-import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -39,7 +37,7 @@ public class User implements Serializable {
 	@Transient
 	private String passwordConfirm;
 
-	@ManyToMany //(fetch = FetchType.EAGER)
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}) //(fetch = FetchType.EAGER)
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
