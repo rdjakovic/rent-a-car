@@ -14,7 +14,7 @@
         <springframework-version>5.2.22.RELEASE</springframework-version>
         <springsecurity.version>[5.2.9,)</springsecurity.version>
         <org.slf4j-version>2.13.0</org.slf4j-version>
-        <apachetiles.version>3.0.5</apachetiles.version>
+        <apachetiles.version>3.0.8</apachetiles.version>
     </properties>
 
 
