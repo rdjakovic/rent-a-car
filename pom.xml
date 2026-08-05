@@ -11,7 +11,7 @@
 
     <properties>
         <java-version>1.8</java-version>
-        <springframework-version>6.2.5</springframework-version>
+        <springframework-version>6.2.7</springframework-version>
         <springsecurity.version>[5.2.9,)</springsecurity.version>
         <org.slf4j-version>2.24.3</org.slf4j-version>
         <apachetiles.version>3.0.8</apachetiles.version>
@@ -109,7 +109,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.6.15.Final</version>
+            <version>6.0.0.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -136,7 +136,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.17.0</version>
+            <version>3.18.0</version>
         </dependency>
 
     </dependencies>
